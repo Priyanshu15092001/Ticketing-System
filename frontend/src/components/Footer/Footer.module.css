@@ -1,0 +1,58 @@
+.footer{
+    padding: 3rem 6rem 3rem 6rem;
+    background-color: #fff;
+    display: flex;
+    /* align-items: center;
+    justify-content: center; */
+    position: relative;
+}
+
+.logo{
+    width:20%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+
+}
+
+.logo img{
+    width: 3vw;
+}
+
+.logo h1{
+    font-size: 2vw;
+    color: #184E7F;
+    font-family: "Inter", sans-serif;
+    font-weight: bold;
+}
+
+.offers{
+    width: 80%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 2rem;
+}
+
+.offer{
+    color:#1b1a1a;
+    font-family: "Inter",sans-serif;
+}
+
+.offer h5{
+    margin-bottom: 1rem;
+    font-size: 1vw;
+}
+
+.list{
+    list-style-type: none;
+    line-height: 1.8rem;
+    font-size: 1vw;
+}
+
+.social{
+    position: absolute;
+    bottom: 10vh;
+    right: 10vw
+}
