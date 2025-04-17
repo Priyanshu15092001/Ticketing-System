@@ -14,7 +14,7 @@ export default function Login() {
     }
 
     const handleClick=()=>{
-      navigate('/admin')
+      navigate('/admin/dashboard')
     }
 
   return (

@@ -16,7 +16,11 @@ export default function Signup() {
   };
 
   const handleClick=()=>{
-    navigate('/admin')
+    navigate('/admin/dashboard')
+  }
+
+  const handleSubmit=(e)=>{
+    e.preventDefault()
   }
 
   return (
@@ -26,7 +30,7 @@ export default function Signup() {
         <Link to='/login'><h4>Sign in instead</h4></Link>
       </div>
 
-      <form action="">
+      <form onSubmit={handleSubmit}>
         <div className={styles.input}>
           <div className={styles.formGroup}>
             <label htmlFor="firstName">First Name</label>
