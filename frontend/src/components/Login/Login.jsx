@@ -1,16 +1,20 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styles from './Login.module.css'
 export default function Login() {
 
     const [formData,setFormData]=useState({username:"",password:""})
-
+    const navigate = useNavigate()
     const handleChange=(e)=>{
         const { name, value } = e.target;
         setFormData(prev => ({
             ...prev,
             [name]: value
         }));
+    }
+
+    const handleClick=()=>{
+      navigate('/admin')
     }
 
   return (
@@ -41,7 +45,7 @@ export default function Login() {
           </div>
         </div>
         <div className={styles.buttons}>
-          <button>Log in</button>
+          <button onClick={handleClick}>Log in</button>
           <p style={{color:'#244779',textDecoration:'underline'}}>Forgot password?</p>
           <p>Don't have an account?<Link to='/signup'><span style={{color:'#244779',textDecoration:'underline'}}>Sign up</span></Link></p>
         </div>

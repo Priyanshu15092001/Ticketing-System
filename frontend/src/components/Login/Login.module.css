@@ -72,6 +72,10 @@ h2 {
   font-family: "Inter", sans-serif;
 }
 
+.buttons button:hover{
+  background-color: #111;
+}
+
 .footer {
   margin-top: 10vh;
   color: #676b5f;
