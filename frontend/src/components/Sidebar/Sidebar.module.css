@@ -7,8 +7,9 @@
   align-items: center;
   background-color: #fafbfc;
   /* gap: 2rem; */
-  position: fixed;
+  position: sticky;
   height: 100vh;
+  border: 2px solid #eeeeee;
 }
 
 .logo {
