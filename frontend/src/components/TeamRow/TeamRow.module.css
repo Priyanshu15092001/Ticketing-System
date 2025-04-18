@@ -1,0 +1,35 @@
+.contentBodyRow{
+    display: flex;
+    justify-content: space-between;
+    padding: 0 1.5rem 5px 1.5rem;
+    border-bottom: 2px solid #e2e9f0;
+    position: relative;
+}
+
+.data{
+    display: flex;
+    flex-direction: row;
+    /* gap: 7rem; */
+    list-style-type: none;
+}
+
+.data li{
+    width: 15vw;
+    font-size: 0.8vw;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    text-align: left;
+    font-family: "Inter",sans-serif;
+    font-weight: 500;
+
+}
+
+.btns{
+    display: flex;
+    gap: 1rem;
+}
+
+.btns img{
+    width: 1vw;
+}

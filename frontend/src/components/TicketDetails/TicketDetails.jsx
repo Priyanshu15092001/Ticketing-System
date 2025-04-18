@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styles from "./TicketDetails.module.css";
 import pic from "../../assets/Dashboard/People.svg";
+
 import profile from "../../assets/ContactCenter/profile.svg";
 import tel from "../../assets/ContactCenter/tel.svg";
 import mail from "../../assets/ContactCenter/mail.svg";
