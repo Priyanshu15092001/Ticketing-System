@@ -18,4 +18,17 @@ const protect=(req,res,next)=>{
     }
 }
 
-module.exports={protect};
+const isAdmin = async (req, res, next) => {
+    try {
+      const user = await User.findById(req.user.id);
+      if (!user || user.role !== "admin") {
+        return res.status(403).json({ message: "Access denied: Admins only" });
+      }
+      next();
+    } catch (err) {
+      console.error("isAdmin middleware error:", err);
+      res.status(500).json({ message: "Server error while checking role" });
+    }
+  };
+
+module.exports={protect,isAdmin};
