@@ -1,0 +1,26 @@
+.messageContainer{
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    gap: 1.5rem;
+}
+
+.details{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.details h5{
+    color: #5E9BD5;
+    font-family: 'Inter',sans-serif;
+    font-size: 0.8vw;
+    font-family: 500;
+}
+
+.details p{
+    color: #9a9b9d;
+    font-family: 'Inter',sans-serif;
+    font-size: 0.8vw;
+    font-family: 500;
+}

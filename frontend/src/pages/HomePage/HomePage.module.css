@@ -1,0 +1,12 @@
+.chatbot{
+    width: 3.5vw;
+    height: 3.5vw;
+    border-radius: 50%;
+    background-color: #33475b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    bottom: 5%;
+    right: 5%;
+}

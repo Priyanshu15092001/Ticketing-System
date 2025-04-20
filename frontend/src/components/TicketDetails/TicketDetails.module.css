@@ -1,0 +1,77 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 1rem;
+    width: 40%;
+    height: 100vh;
+    background-color: #fafbfc;
+}
+
+.header{
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+/* .header img{
+
+} */
+
+.header h3{
+    font-size: 1vw;
+    font-family: "Inter",sans-serif;
+    color: #939598;
+    font-family: 400;
+}
+
+.details{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+}
+
+h4{
+    color: #184e7f;
+    font-size: 0.9vw;
+    font-weight: 500;
+}
+
+.infoContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 7px;
+    width: 100%;
+    
+}
+
+.info{
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    border: 2px solid #9ca0a8;
+    border-radius: 6px;
+    padding: 10px;
+}
+
+.info span{
+    color: #808080;
+    font-family: 'Inter',sans-serif;
+    font-size: 1vw;
+}
+
+.teammates{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+    position: relative;
+}
+
+  .status option:hover {
+    background-color: #f0f0f0; 
+    border-color: #555;        
+  }
+  

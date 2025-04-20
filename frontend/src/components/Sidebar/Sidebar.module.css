@@ -1,0 +1,47 @@
+.sidebar {
+  width: 6vw;
+  color: white;
+  padding: 1rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #fafbfc;
+  /* gap: 2rem; */
+  position: sticky;
+  height: 100vh;
+  border: 2px solid #d1d6da;
+}
+
+.logo {
+  width: 3vw;
+  margin-bottom: 2.5rem;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.navItem img {
+  width: 1.2vw;
+}
+
+.navItem {
+  text-decoration: none;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* font-size: 1.5rem; */
+}
+
+.label {
+  font-size: 0.6vw;
+  color: #424242;
+  font-family: "Poppins", sans-serif;
+}
+
+.online{
+    margin-top: auto;
+}
