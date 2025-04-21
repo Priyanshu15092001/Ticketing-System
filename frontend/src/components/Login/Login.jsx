@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styles from './Login.module.css'
+import {login} from '../../services/index'
+import { toast } from "react-toastify";
 export default function Login() {
 
-    const [formData,setFormData]=useState({username:"",password:""})
+    const [formData,setFormData]=useState({email:"",password:""})
     const navigate = useNavigate()
     const handleChange=(e)=>{
         const { name, value } = e.target;
@@ -13,23 +15,51 @@ export default function Login() {
         }));
     }
 
-    const handleClick=()=>{
-      navigate('/admin/dashboard')
-    }
+     const handleSubmit = (e) => {
+        e.preventDefault();
+    
+        const { email, password } = formData;
+    
+    
+        if (!email || !password) {
+          toast.error("Please fill in all required fields.");
+          return;
+        }
+    
+        login(formData)
+          .then(async (response) => {
+            const data = await response.json();
+            if (response.ok) {
+              
+              localStorage.setItem("token",data.token)
+              
+              toast.success("Login successful!");
+              setFormData({  email: "", password: "" });
+              navigate('/admin/dashboard')
+            } else {
+              console.error(data.message);
+              toast.error(data.message || "Login failed");
+            }
+          })
+          .catch((error) => {
+            console.error(error);
+            toast.error("An error occurred during login. Please try again.");
+          });
+      };
 
   return (
     <section className={styles.login}>
       <h2>Sign in to your Plexify</h2>
 
-      <form action="">
+      <form className={styles.form}>
         <div className={styles.input}>
           <div className={styles.formGroup}>
-            <label htmlFor="username">Username</label>
+            <label htmlFor="email">Email</label>
             <input
               type="email"
-              id="username"
-              name="username"
-              value={formData.username}
+              id="email"
+              name="email"
+              value={formData.email}
               onChange={handleChange}
             />
           </div>
@@ -45,7 +75,7 @@ export default function Login() {
           </div>
         </div>
         <div className={styles.buttons}>
-          <button onClick={handleClick}>Log in</button>
+          <button onClick={handleSubmit}>Log in</button>
           <p style={{color:'#244779',textDecoration:'underline'}}>Forgot password?</p>
           <p>Don't have an account?<Link to='/signup'><span style={{color:'#244779',textDecoration:'underline'}}>Sign up</span></Link></p>
         </div>

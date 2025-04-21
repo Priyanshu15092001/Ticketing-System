@@ -11,7 +11,10 @@ export default function LoginPage() {
           <img src={logo} alt="Logo" />
           <h1>Hubly</h1>
         </div>
+        <div className={styles.loginContainer}>
         <Login/>
+
+        </div>
       </div>
 
       <div className={styles.rightContent}>

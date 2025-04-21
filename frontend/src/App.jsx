@@ -10,7 +10,7 @@ import Analytics from "./components/Analytics/Analytics";
 import Chatbot from "./components/Chatbot/Chatbot";
 import Teams from "./components/Teams/Teams";
 import Settings from "./components/Settings/Settings";
-
+import ProtectedRoute from './ProtectedRoute';
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 function App() {
@@ -21,7 +21,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
-          <Route path="/admin" element={<AdminPage />}>
+          <Route path="/admin" element={<ProtectedRoute><AdminPage /></ProtectedRoute>}>
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="contact-center" element={<ContactCenter />} />
             <Route path="analytics" element={<Analytics />} />
