@@ -1,0 +1,55 @@
+.container{
+    width:14vw;
+    background-color: #fff;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    border-radius: 10px;
+}
+
+.header{
+    font-size: 0.8vw;
+}
+
+.form{
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.formGroup{
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.formGroup label{
+    font-size: 0.7vw;
+    color: #505050;
+    font-weight: 500;
+    font-family: 'Poppins',sans-serif;
+}
+
+.form input{
+    border: none;
+    outline: none;
+    /* padding: 5px; */
+    border-bottom: 1px solid #c3c3c3;
+    font-size: 0.7vw;
+    font-weight: 600;
+    color: #000;
+    font-family: 'Poppins',sans-serif;
+}
+
+.form button{
+    align-self: center;
+    width: 8vw;
+    height: 1.7vw;
+    border-radius: 10px;
+    border: none;
+    background-color: #184e7f;
+    color: #fff;
+    font-size: 0.8vw;
+}
