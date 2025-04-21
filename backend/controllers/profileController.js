@@ -23,20 +23,28 @@ const getProfile = async (req, res) => {
   
   const updateProfile = async (req, res) => {
     try {
-  
-      const {password}=req.body;
+      const { firstName, lastName, email, password } = req.body;
       const id = req.user.id;
-      
-      const hashedPassword = await bcrypt.hash(password,10)
+  
+      const updateData = {};
+  
+      // Add fields to update object only if they are provided
+      if (firstName) updateData.firstName = firstName;
+      if (lastName) updateData.lastName = lastName;
+      if (email) updateData.email = email;
+      if (password) {
+        const hashedPassword = await bcrypt.hash(password, 10);
+        updateData.password = hashedPassword;
+      }
   
       const updatedUser = await User.findByIdAndUpdate(
         id,
-        {$set:{password:hashedPassword}},
-        {new:true}
+        { $set: updateData },
+        { new: true }
       ).select("-password");
   
-      if(!updatedUser){
-        res.status(404).json({ message: "User not found" });
+      if (!updatedUser) {
+        return res.status(404).json({ message: "User not found" });
       }
   
       res.status(200).json({
@@ -49,5 +57,6 @@ const getProfile = async (req, res) => {
       res.status(500).json({ message: "Internal Server Error" });
     }
   };
+  
 
 module.exports={getProfile,updateProfile}
