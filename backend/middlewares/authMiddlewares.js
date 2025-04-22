@@ -31,4 +31,16 @@ const isAdmin = async (req, res, next) => {
     }
   };
 
-module.exports={protect,isAdmin};
+  const isSuperAdmin = async (req, res, next) => {
+    try {
+      const superAdmin = await User.findOne({ role: "admin" }).sort({ createdAt: 1 });
+  
+      req.isSuperAdmin = String(req.user.id) === String(superAdmin._id);
+      next();
+    } catch (err) {
+      console.error("isSuperAdmin middleware error:", err);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  };
+
+module.exports={protect,isAdmin,isSuperAdmin};

@@ -57,9 +57,78 @@ export async function editProfile(formData) {
       body: JSON.stringify(formData),
     });
 
-    return res
+    return res;
   } catch (error) {
     console.log(err);
     throw err;
+  }
+}
+
+export async function getAllMembers() {
+  try {
+    const res = await fetch(`${URL}/api/teams`, {
+      method: "GET",
+      headers: {
+        Authorization: localStorage.getItem("token"),
+      },
+    });
+
+    return res;
+  } catch (error) {
+    console.log(err);
+    throw err;
+  }
+}
+
+export async function addMember(formData){
+  try {
+    const res = await fetch(`${URL}/api/teams`,{
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json',
+        Authorization:localStorage.getItem("token")
+      },
+      body:JSON.stringify(formData)
+    })
+
+    return res
+  } catch (err) {
+      console.error(err);
+      throw err;
+      
+  }
+}
+
+export async function editMember(formData,id){
+  try {
+    const res = await fetch(`${URL}/api/teams/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: localStorage.getItem("token"),
+      },
+      body: JSON.stringify(formData),
+    });
+
+    return res;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
+export async function deleteMember(id){
+  try {
+    const res =await fetch(`${URL}/api/teams/${id}`,{
+      method:"DELETE",
+      headers:{
+        Authorization:localStorage.getItem("token")
+      }
+    })
+
+    return res
+  } catch (error) {
+    console.error(error);
+    throw error;
   }
 }

@@ -24,7 +24,11 @@ const addMember = async (req, res) => {
     });
 
     await newUser.save();
-    res.status(201).json({ message: `${role} added successfully` });
+
+    const member = newUser.toObject();
+    delete member.password;
+    
+    res.status(201).json({ message: `${role.charAt(0).toUpperCase() + role.slice(1)} added successfully`, member:member });
   } catch (err) {
     console.error("Add Member Error:", err);
     res.status(500).json({ message: "Internal Server Error" });
@@ -49,9 +53,9 @@ const getMember = async (req, res) => {
     const user = await User.findById(id).select("-password");
 
     if (user) {
-      res.status(200).json({ message: "Member fetched successfully", user });
+      res.status(200).json({ message: "User fetched successfully", user });
     } else {
-      res.status(404).json({ message: "Member not found" });
+      res.status(404).json({ message: "User not found" });
     }
   } catch (error) {
     console.error(error);
@@ -62,14 +66,20 @@ const getMember = async (req, res) => {
 const deleteMember = async (req, res) => {
   try {
     const { id } = req.params;
-    const user = await User.findByIdAndDelete(id);
-    if (user) {
-      res.status(200).json({ message: "Member deleted successfully" });
-    } else {
-      res.status(404).json({ message: "Member not found" });
+    const targetUser = await User.findById(id);
+
+    if (!targetUser) {
+      return res.status(404).json({ message: "Member not found" });
     }
+
+    if (targetUser.role === "admin" && !req.isSuperAdmin) {
+      return res.status(403).json({ message: "Only super admin can delete other admins" });
+    }
+
+    await User.findByIdAndDelete(id);
+    res.status(200).json({ message: "Member deleted successfully" });
   } catch (error) {
-    console.error(error);
+    console.error("Delete Member Error:", error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
@@ -78,20 +88,26 @@ const updateMember = async (req, res) => {
   try {
     const { id } = req.params;
     const updates = req.body;
+    const targetUser = await User.findById(id);
+
+    if (!targetUser) {
+      return res.status(404).json({ message: "Member not found" });
+    }
+
+    if (targetUser.role === "admin" && !req.isSuperAdmin) {
+      return res.status(403).json({ message: "Only super admin can update other admins" });
+    }
+
     const updatedUser = await User.findByIdAndUpdate(id, updates, {
       new: true,
     }).select("-password");
-
-    if (!updatedUser) {
-      return res.status(404).json({ message: "User not found" });
-    }
 
     res.status(200).json({
       message: "Member updated successfully",
       user: updatedUser,
     });
   } catch (error) {
-    console.error(error);
+    console.error("Update Member Error:", error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
