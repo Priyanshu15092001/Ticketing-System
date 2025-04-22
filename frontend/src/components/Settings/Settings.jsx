@@ -91,6 +91,7 @@ export default function Settings() {
         
         if (updatedFields.password || updatedFields.email) {
           localStorage.removeItem("token");
+          localStorage.removeItem("role")
           setTimeout(() => {
             navigate("/login");
           }, 1500);

@@ -32,6 +32,7 @@ export default function Login() {
             if (response.ok) {
               
               localStorage.setItem("token",data.token)
+              localStorage.setItem("role",data.role)
               
               toast.success("Login successful!");
               setFormData({  email: "", password: "" });

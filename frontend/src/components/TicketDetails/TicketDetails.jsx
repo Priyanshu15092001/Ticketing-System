@@ -8,7 +8,7 @@ import mail from "../../assets/ContactCenter/mail.svg";
 import ticket from "../../assets/ContactCenter/ticket.svg";
 import CustomDropdown from "../CustomDropdown/CustomDropdown";
 import dropdown from '../../assets/ContactCenter/dropdown.svg'
-import AssignedPopup from "../AssignedPopup/AssignedPopup";
+import {AssignedPopup} from "../Popup/Popup";
 export default function TicketDetails() {
   const [selected, setSelected] = useState("");
   const showIcon = selected === "";
