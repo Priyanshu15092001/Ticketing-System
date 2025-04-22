@@ -112,7 +112,7 @@ export default function Settings() {
           <h3>Edit Profile</h3>
         </div>
         <hr />
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className={styles.form}>
           <div className={styles.formGroup}>
             <label htmlFor="firstName">First Name</label>
             <input
