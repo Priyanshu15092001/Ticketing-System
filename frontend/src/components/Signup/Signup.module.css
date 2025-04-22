@@ -1,12 +1,13 @@
 .signup {
+  flex: 1;
   width: 40%;
   /* height: 70vh; */
   /* background-color: aquamarine; */
   margin-top: 1vh;
-  position: absolute;
+  /* position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%); */
   display: flex;
   flex-direction: column;
   gap: 1.5vw;
@@ -114,20 +115,11 @@
   background-color: #111;
 }
 
-.error {
-  color: red;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: "Inter",sans-serif;
-  font-weight: 500;
-  font-size: 0.8vw;
-}
 
 .footer {
   
   color: #676b5f;
-  font-size: 0.6vw;
+  font-size: 0.5vw;
   font-family: "Inter", sans-serif;
   
 }
@@ -207,6 +199,10 @@
 
   .terms{
     font-size: 1.8vw;
+  }
+
+  .input{
+    gap: 1.5vw;
   }
 
   .input button{
