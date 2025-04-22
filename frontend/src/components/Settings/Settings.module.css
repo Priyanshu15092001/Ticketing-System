@@ -24,14 +24,14 @@
 
 .contentHeader{
     border-bottom: 2px solid #184E7F;
-    width: 5vw;
+    width:fit-content
 }
 
 .contentHeader h3{
     font-size: 0.8vw;
 }
 
-form{
+.form{
     padding: 1rem 2rem 1rem 2rem;
     display: flex;
     flex-direction: column;
@@ -45,7 +45,7 @@ form{
 }
 
 .formGroup label{
-    font-size: 0.8vw;
+    font-size: 1vw;
     font-family: 'Poppins',sans-serif;
 }
 
@@ -53,8 +53,10 @@ form{
     padding: 7px;
     border-radius: 10px;
     border: 1px solid #3e3e3e;
-    width: 23vw;
+    width: 40%;
     font-family: 'Poppins',sans-serif;
+    font-size: 1.2vw;
+
 }
 
 .inputContainer{
@@ -71,7 +73,7 @@ form{
 .btn button{
     padding: 7px 3rem 7px 3rem;
     border-radius: 12px;
-    font-size: 0.8vw;
+    font-size: 1vw;
     background-color: #184e7f;
     color: #fafbfc;
     font-family: 'Poppins',sans-serif;
@@ -113,3 +115,26 @@ form{
     opacity: 1;
   }
   
+
+  @media screen and (max-width:1024px) {
+    .contentHeader h3{
+        font-size: 1.5vw;
+    }
+
+    .formGroup label{
+        font-size: 1.8vw;
+    }
+    
+    .formGroup input{
+        width: 60%;
+        font-size: 1.8vw;
+    }
+
+    .tooltip{
+        font-size: 1.2vw;
+    }
+
+    .btn button{
+        font-size: 1.5vw;
+    }
+  }
