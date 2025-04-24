@@ -31,3 +31,32 @@
     background-color: #efefef;
     border-radius: 30px;
   }
+
+
+  @media screen and (max-width:1440px) {
+    .container img{
+        width: 4.3vw;
+    }
+
+    .content h5{
+        font-size: 1.7vw;
+    }
+
+    .content p{
+        font-size: 1.3vw;
+    }
+  }
+
+  @media screen and (max-width:1024px) {
+    .container img{
+        width: 2.4vw;
+    }
+
+    .content h5{
+        font-size: 2vw;
+    }
+
+    .content p{
+        font-size: 1.4vw;
+    }
+  }

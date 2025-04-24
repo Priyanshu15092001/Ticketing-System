@@ -2,13 +2,13 @@ import React from 'react'
 import styles from './Popup.module.css'
 import { deleteMember } from '../../services/index';
 import { toast } from 'react-toastify';
-export function AssignedPopup({message,showPopup,setShowPopup}) {
+export function AssignedPopup({message,showPopup,setShowPopup,handleClick,handleCancel}) {
   return (
     <div className={styles.container}>
         <h4>{message}</h4>
         <div className={styles.buttons}>
-            <button onClick={()=>setShowPopup(false)}>Cancel</button>
-            <button>Confirm</button>
+            <button onClick={handleCancel}>Cancel</button>
+            <button onClick={handleClick}>Confirm</button>
         </div>
     </div>
   )

@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import pic from "../../assets/Dashboard/People.svg";
 import styles from "./ChatItem.module.css";
-export default function ChatItem({ id, name, message, isActive, onSelect }) {
+export default function ChatItem({ id,chat, isActive, onSelect }) {
   const preview =
-    message.split(" ").length > 4
-      ? message.split(" ").slice(0, 4).join(" ") + "..."
+    chat.title.split(" ").length > 5
+      ? chat.title.split(" ").slice(0, 5).join(" ") + "..."
       : message;
 
   return (
@@ -15,7 +15,7 @@ export default function ChatItem({ id, name, message, isActive, onSelect }) {
       >
         <img src={pic} alt="Profile pic" />
         <div className={styles.content}>
-          <h5>{name}</h5>
+          <h5>{`Chat ${id+1}`}</h5>
           <p>{preview}</p>
         </div>
       </div>

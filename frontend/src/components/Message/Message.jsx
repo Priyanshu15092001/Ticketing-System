@@ -1,14 +1,36 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import styles from './Message.module.css'
 import userPic from '../../assets/Dashboard/People.svg' 
-export default function Message() {
+import adminPic from "../../assets/ContactCenter/admin.svg"
+import { TicketContext } from '../../contexts/TicketContext'
+export default function Message({chat,selectedUser,showImage}) {
+
+  const{chatList,ticket} = useContext(TicketContext)
+  const indexName = chatList.findIndex(item => item._id === ticket._id)
+
   return (
-    <div className={styles.messageContainer}>
-        <img src={userPic} alt="User Pic" />
-        <div className={styles.details}>
-            <h5>Chat 1</h5>
-            <p>I have a question</p>
-        </div>
+    <div className={`${styles.messageContainer} ${chat.senderType === 'system' ? styles.sendMessage : ''}`}>
+    {showImage ? 
+      <img
+        src={chat.senderType === 'system' ? adminPic : userPic}
+        alt="User Pic"
+        className={styles.imgSpace}
+      />
+    :
+    <div className={styles.imgSpace}></div>
+    }
+    <div className={`${styles.details} ${chat.senderType === 'system' ? styles.sendMessageDetails : ''}`}>
+
+      {
+          showImage?
+          chat.senderType === 'system'
+            ?<h5> {selectedUser?.firstName} {selectedUser?.lastName}</h5>
+            : <h5>Chat {indexName+1}</h5>
+            :""
+      }
+     
+      <p>{chat.content}</p>
     </div>
+  </div>
   )
 }

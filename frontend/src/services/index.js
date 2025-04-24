@@ -132,3 +132,91 @@ export async function deleteMember(id){
     throw error;
   }
 }
+
+export async function getTickets(status){
+
+  const query = new URLSearchParams({status});
+  console.log(query);
+  
+  try {
+    const res=await fetch(`${URL}/api/tickets?${query}`,{
+      method: "GET",
+      headers:{
+        Authorization:localStorage.getItem("token")
+      }
+    })
+    return res
+  } catch (error) {
+    console.error(error);
+    throw error;
+    
+  }
+}
+
+export async function getMessages(id){
+  try {
+    const res=await fetch(`${URL}/api/messages/${id}`,{
+      method:"GET",
+    })
+
+    return res
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
+export async function reassignTicket(newUser,id){
+  try {
+    const res = await fetch(`${URL}/api/tickets/${id}/reassign`,{
+      method:"PUT",
+      headers: {
+        "Content-Type" : "application/json",
+        Authorization: localStorage.getItem("token")
+      },
+      body:JSON.stringify({newAssigneeId:newUser})
+    })
+    return res;
+  } catch (error) {
+    console.error(error);
+    throw error
+    
+  }
+}
+
+export async function updateTicketStatus(id){
+  try {
+    const res = await fetch(`${URL}/api/tickets/${id}/status`,{
+      method:"PUT",
+      headers:{
+        "Content-Type":"application/json",
+        Authorization:localStorage.getItem("token")
+      },
+      body:JSON.stringify({status:"resolved"})
+    })
+
+    return res
+
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
+export async function sendMessages(id,message){
+  try {
+    const res = await fetch(`${URL}/api/messages/${id}/send`,{
+      method:'POST',
+      headers:{
+        "content-type":'application/json',
+      },
+      body:JSON.stringify(message),
+    })
+
+    return res;
+  } catch (error) {
+    console.error(error);
+    throw error
+    
+  }
+}
