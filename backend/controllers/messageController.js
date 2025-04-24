@@ -32,7 +32,7 @@ const getMessages = async (req, res) => {
     const { ticketId } = req.params;
 
     const messages = await Message.find({ ticket: ticketId }).sort({
-      createdAt: 1,
+      createdAt: -1,
     });
     res.status(200).json({ messages });
   } catch (err) {
