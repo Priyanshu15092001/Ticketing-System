@@ -95,11 +95,12 @@ hr{
     color: #84818a;
 }
 
-a{
+.openLink{
     text-decoration: underline;
     color: #184e7f;
     font-size: 0.8vw;
     font-weight: 600;
+    cursor: pointer;
 }
 
 
@@ -134,7 +135,8 @@ a{
         font-size: 1.2vw;
     }
 
-    a{
+    .openLink{
         font-size: 1.4vw;
+        cursor: pointer;
     }
 }

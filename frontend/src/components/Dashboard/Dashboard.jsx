@@ -105,7 +105,7 @@ export default function Dashboard() {
 
       <div className={styles.ticketList}>
         {filterTickets.map((ticket, index) => (
-          <TicketCard ticket={ticket} key={index} />
+          <TicketCard item={ticket} key={index} />
         ))}
       </div>
     </section>

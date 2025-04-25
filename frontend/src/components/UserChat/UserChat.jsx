@@ -38,6 +38,7 @@ export default function UserChat({
     }
     else if (ticket?.status !== "unresolved") {
       setNotify("This chat has been resolved");
+      setChats([])
       disabled = true;
     } else if (chatList.length === 0) {
       setNotify("No chats to display");

@@ -28,8 +28,15 @@ export default function ContactCenter() {
         if (response.ok) {
           
           setChatList(data.tickets);
-          setSelectedChat(data?.tickets[0]?._id);
-          setTicket(data.tickets[0]);
+
+          if(!ticket._id)
+            setSelectedChat(data?.tickets[0]?._id);
+          else
+            setSelectedChat(ticket?._id)
+
+          if(!ticket)
+            setTicket(data.tickets[0]);
+          
           // if (data.tickets.length == 0) {
           //   setDisabled(true);
           // } else {

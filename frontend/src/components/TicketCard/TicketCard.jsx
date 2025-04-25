@@ -1,8 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import styles from "./TicketCard.module.css";
 import pic from "../../assets/Dashboard/People.svg";
-import { Link } from "react-router-dom";
-export default function TicketCard({ ticket }) {
+import { Link, useNavigate } from "react-router-dom";
+import { TicketContext } from "../../contexts/TicketContext";
+export default function TicketCard({ item }) {
+
+  const{ticket,setTicket} = useContext(TicketContext)
+
+  const navigate=useNavigate()
   const formatTime = (isoString) => {
     const date = new Date(isoString);
 
@@ -34,21 +39,27 @@ export default function TicketCard({ ticket }) {
     return formattedDiff;
   };
 
+  const handleClick =(e)=>{
+    e.preventDefault()
+    setTicket(item);
+    navigate('/admin/contact-center')
+  }
+
   return (
     <div className={styles.card}>
       <div className={styles.top}>
         <div className={styles.left}>
           <div className={styles.ticketId}>
             <div className={styles.circle}></div>
-            <span>{ticket?.ticketId}</span>
+            <span>{item?.ticketId}</span>
           </div>
-          <p className={styles.message}>{ticket?.title}</p>
+          <p className={styles.message}>{item?.title}</p>
         </div>
         <div className={styles.right}>
           <span className={styles.postedTime}>
-            Posted at {formatTime(ticket?.createdAt)}
+            Posted at {formatTime(item?.createdAt)}
           </span>
-          <span className={styles.lapseTime}>{diffHours(ticket?.createdAt)}</span>
+          <span className={styles.lapseTime}>{diffHours(item?.createdAt)}</span>
         </div>
       </div>
       <hr />
@@ -56,14 +67,14 @@ export default function TicketCard({ ticket }) {
         <div className={styles.details}>
           <img src={pic} alt="Profile pic" />
           <div className={styles.info}>
-            <span>{ticket?.customer.name}</span>
-            <span>{ticket?.customer.phone}</span>
-            <span>{ticket?.customer.email}</span>
+            <span>{item?.customer.name}</span>
+            <span>{item?.customer.phone}</span>
+            <span>{item?.customer.email}</span>
           </div>
         </div>
-        <Link>
-          <span>Open Ticket</span>
-        </Link>
+        
+          <span className={styles.openLink} onClick={handleClick}>Open Ticket</span>
+  
       </div>
     </div>
   );
