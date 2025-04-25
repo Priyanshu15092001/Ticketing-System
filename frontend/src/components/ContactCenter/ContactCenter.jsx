@@ -11,17 +11,18 @@ export default function ContactCenter() {
     setTicket,
     setSelectedChat,
     setChatList,
+    setCurrentMember
   } = useContext(TicketContext);
 
   const [members, setMembers] = useState([]);
   const [selectedUser, setSelectedUser] = useState();
   const [chats, setChats] = useState([]);
 
-  const [disabled, setDisabled] = useState(false);
-  const [resolved, setResolved] = useState(false);
+
+  
 
   useEffect(() => {
-    getTickets("unresolved")
+    getTickets("")
       .then(async (response) => {
         const data = await response.json();
         if (response.ok) {
@@ -29,11 +30,11 @@ export default function ContactCenter() {
           setChatList(data.tickets);
           setSelectedChat(data?.tickets[0]?._id);
           setTicket(data.tickets[0]);
-          if (data.tickets.length == 0) {
-            setDisabled(true);
-          } else {
-            setDisabled(false);
-          }
+          // if (data.tickets.length == 0) {
+          //   setDisabled(true);
+          // } else {
+          //   setDisabled(false);
+          // }
         }
       })
       .catch((error) => {
@@ -54,11 +55,13 @@ export default function ContactCenter() {
             (user) => user._id === ticket.assignedTo
           );
           if (matchedUser) {
+            
+            setCurrentMember(matchedUser)
             setSelectedUser(matchedUser);
 
-            matchedUser._id === ticket.assignedTo
-              ? setDisabled(false)
-              : setDisabled(true);
+            // matchedUser._id === ticket.assignedTo
+            //   ? setDisabled(false)
+            //   : setDisabled(true);
           }
         }
       })
@@ -71,9 +74,6 @@ export default function ContactCenter() {
     <div className={styles.container}>
       <Chatbar />
       <UserChat
-        disabled={disabled}
-        selectedUser={selectedUser}
-        resolved={resolved}
         chats={chats}
         setChats={setChats}
       />
@@ -81,9 +81,6 @@ export default function ContactCenter() {
         members={members}
         selectedUser={selectedUser}
         setSelectedUser={setSelectedUser}
-        disabled={disabled}
-        setDisabled={setDisabled}
-        setResolved={setResolved}
         setChats={setChats}
       />
     </div>

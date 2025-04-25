@@ -3,21 +3,37 @@ import styles from "./CustomDropdown.module.css";
 import admin from "../../assets/ContactCenter/admin.svg";
 import teamLogo from '../../assets/Sidebar/teams.svg'
 import dropdown from "../../assets/ContactCenter/dropdown.svg";
+import { TicketContext } from "../../contexts/TicketContext";
 export default function CustomDropdown({
   members,
   selectedUser,
   setSelectedUser,
   setShowMemberPopup,
-  disabled
 }) {
   const [isOpen, setIsOpen] = useState(false);
-  // const {ticket} = useContext(TicketContext)
+  const {ticket} = useContext(TicketContext)
+  const [disableDropdown,setDisableDropdown] = useState(false)
+  useEffect(() => {
 
+    if(localStorage.getItem("user")!==ticket?.assignedTo){
+      setDisableDropdown(true)
+    }
+    else if(ticket?.status==='resolved')
+    {
+      setDisableDropdown(true)
+    }
+    else if(localStorage.getItem("role")==="member"){
+      setDisableDropdown(true)
+    }
+    else{
+      setDisableDropdown(false)
+    }
+  }, [ticket?.status,ticket?._id,ticket?.assignedTo]);
 
   const toggleDropdown = () => {
-    console.log(disabled);
-    disabled?setIsOpen(false):setIsOpen(!isOpen)
-    localStorage.getItem("role")==="member"?setIsOpen(false):setIsOpen(!isOpen)
+    // console.log(disabled);
+    disableDropdown?setIsOpen(false):setIsOpen(!isOpen)
+    
   };
  
 
@@ -29,10 +45,10 @@ export default function CustomDropdown({
 
   return (
     <div className={styles.dropdown}>
-      <div className={`${styles.selected} ${disabled ? styles.disabled : ''}`} onClick={toggleDropdown}>
+      <div className={`${styles.selected} ${disableDropdown ? styles.disabled : ''}`} onClick={toggleDropdown}>
         <div>
           {
-            !disabled?<img src={admin} alt="admin pic" />:<img src={teamLogo} alt="disabled" style={{width:"1vw"}} />
+            !disableDropdown?<img src={admin} alt="admin pic" />:<img src={teamLogo} alt="disabled" style={{width:"1vw"}} />
           }
           
           <span>

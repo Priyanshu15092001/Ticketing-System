@@ -5,7 +5,7 @@ export default function ChatItem({ id,chat, isActive, onSelect }) {
   const preview =
     chat.title.split(" ").length > 5
       ? chat.title.split(" ").slice(0, 5).join(" ") + "..."
-      : message;
+      : chat.title;
 
   return (
     <div className={`${isActive?styles.border:""}`}>

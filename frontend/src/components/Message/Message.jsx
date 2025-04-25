@@ -3,7 +3,7 @@ import styles from './Message.module.css'
 import userPic from '../../assets/Dashboard/People.svg' 
 import adminPic from "../../assets/ContactCenter/admin.svg"
 import { TicketContext } from '../../contexts/TicketContext'
-export default function Message({chat,selectedUser,showImage}) {
+export default function Message({chat,currentMember,showImage}) {
 
   const{chatList,ticket} = useContext(TicketContext)
   const indexName = chatList.findIndex(item => item._id === ticket._id)
@@ -24,7 +24,7 @@ export default function Message({chat,selectedUser,showImage}) {
       {
           showImage?
           chat.senderType === 'system'
-            ?<h5> {selectedUser?.firstName} {selectedUser?.lastName}</h5>
+            ?<h5> {currentMember?.firstName} {currentMember?.lastName}</h5>
             : <h5>Chat {indexName+1}</h5>
             :""
       }

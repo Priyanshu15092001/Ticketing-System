@@ -5,7 +5,9 @@ import { TicketContext } from "../../contexts/TicketContext";
 export default function Chatbar() {
   
   
-  const { setTicket,selectedChat,setSelectedChat,chatList } = useContext(TicketContext);
+  const { ticket,setTicket,selectedChat,setSelectedChat,chatList } = useContext(TicketContext);
+
+ 
   
   return (
     <div className={styles.container}>
@@ -25,7 +27,9 @@ export default function Chatbar() {
               isActive={selectedChat === chat._id}
               onSelect={() => {
                 setSelectedChat(chat._id);
-                setTicket(chat);
+                setTicket({...chat});
+                // console.log("check",chat);
+                
               }}
             />
           ))}

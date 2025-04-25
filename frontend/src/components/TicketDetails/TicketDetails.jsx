@@ -10,23 +10,41 @@ import CustomDropdown from "../CustomDropdown/CustomDropdown";
 import dropdown from "../../assets/ContactCenter/dropdown.svg";
 import { AssignedPopup } from "../Popup/Popup";
 import { TicketContext } from "../../contexts/TicketContext";
-import { getAllMembers, reassignTicket, updateTicketStatus } from "../../services/index";
+import { reassignTicket, updateTicketStatus } from "../../services/index";
 import { toast } from "react-toastify";
 export default function TicketDetails({
   members,
   setSelectedUser,
   selectedUser,
-  disabled,
-  setDisabled,
-  setResolved,
   setChats
 }) {
+  const { ticket,setChatList,setTicket } = useContext(TicketContext);
   const [selected, setSelected] = useState("");
+
+  // const disabled
+
+  const [disabledUi,setDisabledUi]=useState(false)
+
+useEffect(() => {
+
+  if(localStorage.getItem("user")!==ticket?.assignedTo){
+    setDisabledUi(true)
+  }
+
+  else if (ticket?.status === "resolved") {
+    setSelected("resolved");
+    // setResolved(true)
+    setDisabledUi(true)
+    // setChats([])
+  } else {
+    setSelected("");
+    setDisabledUi(false)
+  }
+}, [ticket?.status,ticket?.assignedTo,ticket?._id]);
   const showIcon = selected === "";
 
   const [showMemberPopup, setShowMemberPopup] = useState(false);
   const [showStatusPopup, setShowStatusPopup] = useState(false);
-  const { ticket,chatList } = useContext(TicketContext);
 
   const handleStatus = (e) => {
     setSelected(e.target.value);
@@ -40,11 +58,33 @@ export default function TicketDetails({
         const data = await response.json();
 
         if (response.ok) {
-          console.log(data);
+          // console.log(data);
 
-          ticket.assignedTo === data.ticket.assignedTo?setDisabled(false):setDisabled(true);
+          
 
-          setChats([])
+          if(ticket.assignedTo === data.ticket.assignedTo){
+              setDisabledUi(false)
+          }
+          else{
+            setChats([])
+
+            setTicket((prevTicket) => {
+              const updatedTicket = {
+                ...prevTicket,
+                assignedTo: data.ticket.assignedTo,
+              };
+            
+              setChatList(prevList =>
+                prevList.map(c => c._id === updatedTicket._id ? updatedTicket : c)
+              );
+            
+              return updatedTicket;
+            }
+            )
+
+          }
+
+          
 
           setShowMemberPopup(false);
         } else {
@@ -71,9 +111,23 @@ export default function TicketDetails({
       const data = await response.json();
       if (response.ok) {
         setShowStatusPopup(false)
-        setResolved(true)
-        setDisabled(true)
-        setChats([])
+
+        setTicket((prevTicket) => {
+          const updatedTicket = {
+            ...prevTicket,
+            status: "resolved",
+          };
+        
+          setChatList(prevList =>
+            prevList.map(c => c._id === updatedTicket._id ? updatedTicket : c)
+          );
+        
+          return updatedTicket;
+        });
+
+        // setResolved(true)
+      //   setDisabled(true)
+      //   setChats([])
       }
       else{
         toast.error(data.message)
@@ -92,7 +146,7 @@ export default function TicketDetails({
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        {!disabled ? (
+        {!disabledUi ? (
           <img src={pic} alt="Profile pic" />
         ) : (
           <div className={styles.profileCircle}></div>
@@ -109,7 +163,7 @@ export default function TicketDetails({
           </div>
           <div className={styles.info}>
             <img src={tel} alt="Tel" />
-            <p>{chatList.length==0?"":"+100 011 293494"}</p>
+            <p>{ticket?.customer.phone}</p>
           </div>
           <div className={styles.info}>
             <img src={mail} alt="Mail" />
@@ -121,14 +175,10 @@ export default function TicketDetails({
         <h4>Team Member</h4>
         <div className={styles.ticketStatus}>
           <CustomDropdown
-            assignedTo={ticket?.assignedTo}
             members={members}
             selectedUser={selectedUser}
             setSelectedUser={setSelectedUser}
             setShowMemberPopup={setShowMemberPopup}
-            showMemberPopup={showMemberPopup}
-            disabled={disabled}
-            setDisabled={setDisabled}
           />
           {  
           showMemberPopup ? (
@@ -146,7 +196,7 @@ export default function TicketDetails({
             className={styles.status}
             value={selected}
             onChange={handleStatus}
-            disabled={disabled}
+            disabled={disabledUi}
             style={
               showIcon
                 ? {

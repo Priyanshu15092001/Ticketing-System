@@ -4,6 +4,7 @@
     padding: 2rem;
     display: flex;
     flex-direction: column;
+    gap: 1.5rem;
     /* overflow: hidden; */
 }
 
@@ -25,7 +26,7 @@
     gap: 1rem;
     padding: 10px;
     border: 2px solid #eeeeee;
-    margin-bottom: 2.5rem;
+    
 }
 
 .searchBar img{
@@ -111,4 +112,49 @@
     border-radius: 20px;
     border: 5px solid #6a6b70 ;
     background-clip: content-box;
+  }
+
+
+  @media screen and (max-width:1440px) {
+    .header{
+      font-size: 1.6vw;
+    }
+
+    .searchBar{
+      width: 25vw;
+    }
+
+    .searchBar img{
+      width: 1.4vw;
+    }
+
+    .searchBar input{
+      font-size: 1.4vw;
+    }
+
+    .tab{
+      font-size: 1.4vw;
+    }
+  }
+
+  @media screen and (max-width:1024px) {
+    .header{
+      font-size: 2.7vw;
+    }
+
+    .searchBar{
+      width: 35vw;
+    }
+
+    .searchBar img{
+      width: 2vw;
+    }
+
+    .searchBar input{
+      font-size: 2vw;
+    }
+
+    .tab{
+      font-size: 2vw;
+    }
   }

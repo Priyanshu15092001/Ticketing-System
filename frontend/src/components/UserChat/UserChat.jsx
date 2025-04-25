@@ -7,13 +7,14 @@ import { TicketContext } from "../../contexts/TicketContext";
 import { getMessages, sendMessages } from "../../services";
 import { toast } from "react-toastify";
 export default function UserChat({
-  disabled,
-  selectedUser,
-  resolved,
   chats,
   setChats,
 }) {
-  const { ticket, chatList } = useContext(TicketContext);
+  const { ticket, chatList,currentMember } = useContext(TicketContext);
+
+  const[notify,setNotify]=useState("")
+
+  const[disabledChat,setDisabledChat]=useState(false)
 
   const [message, setMessage] = useState({
     senderType: "system",
@@ -21,21 +22,69 @@ export default function UserChat({
     content: "",
   });
 
+  
+  // useEffect(() => {
+    
+  // }, [chats,notify]);
+
+
   useEffect(() => {
-    if (ticket?._id) {
-      getMessages(ticket._id)
-        .then(async (response) => {
-          const data = await response.json();
-          console.log(data?.messages);
-          if (response.ok) {
-            setChats(data?.messages);
-          }
-        })
-        .catch((error) => {
-          console.error("Failed to fetch messages:", error);
-        });
+    let disabled = false;
+    
+    if (localStorage.getItem("user") !== ticket?.assignedTo) {
+      setNotify("This chat is assigned to a new team member. You no longer have access");
+      setChats([])
+      disabled = true;
     }
-  }, [ticket]);
+    else if (ticket?.status !== "unresolved") {
+      setNotify("This chat has been resolved");
+      disabled = true;
+    } else if (chatList.length === 0) {
+      setNotify("No chats to display");
+      disabled = true;
+    } 
+    else{
+      getMessages(ticket._id)
+      .then(async (response) => {
+        const data = await response.json();
+        // console.log(data?.messages);
+        if (response.ok) {
+          setChats(data?.messages);
+          setDisabledChat(false)
+        }
+      })
+      .catch((error) => {
+        console.error("Failed to fetch messages:", error);
+      });
+      disabled=false
+    }
+  
+    setDisabledChat(disabled);
+  }, [ticket?.status, ticket?.assignedTo, currentMember,ticket?._id]);
+
+ 
+  // useEffect(() => {
+  //   if (ticket?._id && ticket?.status==="unresolved") {
+  //     getMessages(ticket._id)
+  //       .then(async (response) => {
+  //         const data = await response.json();
+  //         // console.log(data?.messages);
+  //         if (response.ok) {
+  //           setChats(data?.messages);
+  //           setDisabledChat(false)
+  //         }
+  //       })
+  //       .catch((error) => {
+  //         console.error("Failed to fetch messages:", error);
+  //       });
+  //   }
+  //   else{
+  //     setChats([])
+  //     setNotify("This chat has been resolved")
+  //     setDisabledChat(true)
+  //   }
+
+  // }, [ticket?._id,ticket?.status]);
 
   const formatTime = (isoDate) => {
     const date = new Date(isoDate);
@@ -99,7 +148,7 @@ export default function UserChat({
               chat={chat}
               showImage={showImage}
               key={index}
-              selectedUser={selectedUser}
+              currentMember={currentMember}
             />
           );
         })}
@@ -113,9 +162,9 @@ export default function UserChat({
             }}
           ></div>
           <p>
-            {chats[0]
-              ? formatTime(chats[0]?.createdAt)
-              : formatTime(new Date().toISOString())}
+            {
+              formatTime(ticket?.createdAt)
+            }
           </p>
           <div
             style={{
@@ -127,20 +176,8 @@ export default function UserChat({
         </div>
       </div>
       <div className={styles.inputContainer}>
-        {disabled ? (
-          <p
-            style={{
-              color: "rgba(0, 0, 0, 0.45)",
-              fontFamily: "'Inter',sans-serif",
-              fontSize: "0.8vw",
-            }}
-          >
-            {chatList.length == 0
-              ? "No chats to display"
-              : resolved
-              ? "This chat has been resolved"
-              : "This chat is assigned to new team member. You no longer have access"}
-          </p>
+        {disabledChat ? (
+          <p className={styles.disableText} >{notify}</p>
         ) : (
           <div className={styles.input}>
             <textarea
