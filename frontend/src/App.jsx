@@ -10,27 +10,55 @@ import Analytics from "./components/Analytics/Analytics";
 import Chatbot from "./components/Chatbot/Chatbot";
 import Teams from "./components/Teams/Teams";
 import Settings from "./components/Settings/Settings";
-import ProtectedRoute from './ProtectedRoute';
+import ProtectedRoute from "./ProtectedRoute";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useEffect, useState } from "react";
 function App() {
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 700);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 700);
+    // console.log(isMobile,handleResize());
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  
   return (
     <div className="App">
-      <Router>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/signup" element={<SignupPage />} />
-          <Route path="/admin" element={<ProtectedRoute><AdminPage /></ProtectedRoute>}>
-            <Route path="dashboard" element={<Dashboard />} />
-            <Route path="contact-center" element={<ContactCenter />} />
-            <Route path="analytics" element={<Analytics />} />
-            <Route path="chatbot" element={<Chatbot />} />
-            <Route path="teams" element={<Teams />} />
-            <Route path="settings" element={<Settings />} />
-          </Route>
-        </Routes>
-      </Router>
+      {isMobile ? (
+        <Router>
+          <Routes>
+            <Route path="/" element={<HomePage/>} />
+          </Routes>
+        </Router>
+      ) : (
+        <Router>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/signup" element={<SignupPage />} />
+            <Route
+              path="/admin"
+              element={
+                <ProtectedRoute>
+                  <AdminPage />
+                </ProtectedRoute>
+              }
+            >
+              <Route path="dashboard" element={<Dashboard />} />
+              <Route path="contact-center" element={<ContactCenter />} />
+              <Route path="analytics" element={<Analytics />} />
+              <Route path="chatbot" element={<Chatbot />} />
+              <Route path="teams" element={<Teams />} />
+              <Route path="settings" element={<Settings />} />
+            </Route>
+          </Routes>
+        </Router>
+      )}
+
       <ToastContainer
         position="top-center"
         hideProgressBar={false}
@@ -38,7 +66,6 @@ function App() {
         closeOnClick
         pauseOnFocusLoss
         autoClose={3000}
-
       />
     </div>
   );

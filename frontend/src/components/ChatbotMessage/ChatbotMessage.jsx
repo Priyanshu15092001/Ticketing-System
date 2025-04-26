@@ -9,6 +9,7 @@ export default function ChatbotMessage({
   message,
   messages,
   setMessages,
+  showImage
 }) {
   // const showBotDp = botMessage && (index === 0 || !messages[index - 1].botMessage)
   return (
@@ -19,10 +20,10 @@ export default function ChatbotMessage({
           : styles.receive
       }`}
     >
-      {message?.senderType == "system" ? (
-        <img src={chatbotDp} alt="Bot Pic" />
+      {message?.senderType == "system" && showImage ? (
+        <img src={chatbotDp} className={styles.profileImg} alt="Bot Pic" />
       ) : (
-        <></>
+        <div className={styles.profileImg}></div>
       )}
       {firstMessage ? (
         <div className={styles.firstMessage}>

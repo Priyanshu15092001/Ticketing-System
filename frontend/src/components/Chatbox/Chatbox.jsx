@@ -135,13 +135,20 @@ export default function Chatbox() {
             setMessages={setMessages}
           />
         ) : (
-          messages?.map((messageItem, index) => (
-            <ChatbotMessage
+          messages?.map((messageItem, index) => {
+            const nextMessage = messages[index + 1];
+            const showImage =
+              index === messages.length - 1 ||
+              messageItem.senderType !== nextMessage?.senderType;
+           
+           return <ChatbotMessage
               firstMessage={false}
               message={messageItem}
               key={index}
+              showImage={showImage}
             />
-          ))
+           }
+          )
         )}
       </div>
       <div className={styles.chatbox}>

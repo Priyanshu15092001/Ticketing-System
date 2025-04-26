@@ -1,6 +1,6 @@
 .container{
     position: fixed;
-    bottom: 15%;
+    bottom: 8vw;
     right:5%;
     width: 20vw;
     height: 30vw;
@@ -53,6 +53,7 @@
     height: 100%;
     width: 94%;
     border-radius: inherit;
+    font-size: 1vw;
 }
 
 .btn{
@@ -66,4 +67,136 @@
 
 .chatbox textarea::placeholder{
     color: #8498b6;
+}
+
+
+@media screen and (max-width:1440px) {
+    .container{
+        bottom: 15vw;
+        width: 30vw;
+        height: 40vw;
+    }
+     
+    .header img{
+        width: 3.5vw;
+    }
+    
+    .header h5{
+        font-size: 1.8vw;
+    }
+    
+    
+    .chatbox{
+        height: 13%;
+    }
+    
+    .chatbox textarea{
+        font-size: 1.7vw;
+    }
+
+    .btn img{
+        width: 2vw;
+    }   
+}
+
+@media screen and (max-width:1024px) {
+    .container{
+        bottom: 16vw;
+        width: 35vw;
+        height: 45vw;
+    }
+     
+    .header img{
+        width: 3.8vw;
+    }
+    
+    .header h5{
+        font-size: 2vw;
+    }
+    
+    .chatbox textarea{
+        font-size: 1.9vw;
+    }
+
+    .btn img{
+        width: 2.3vw;
+    }   
+}
+
+@media screen and (max-width:860px) {
+    .container{
+        bottom: 25vw;
+        width: 50vw;
+        height: 65vw;
+    }
+     
+    .header img{
+        width: 4.8vw;
+    }
+    
+    .header h5{
+        font-size: 2.7vw;
+    }
+    
+    
+    .chatbox{
+        height: 13%;
+    }
+    
+    .chatbox textarea{
+        font-size: 2.9vw;
+    }
+
+    .btn img{
+        width: 3.2vw;
+    }   
+}
+
+
+@media screen and (max-width:699px) {
+    .container{
+        width:90%;
+        height: 70dvh;
+        bottom: 18%;
+    }
+    
+    .header img{
+        width: 10vw;
+    }
+    
+    .header h5{
+        font-size: 4vw;
+    }
+    
+    .body{
+        gap: 1.6rem;
+    }
+    
+    .chatbox{
+        height: 13%;
+    }
+    
+    .chatbox textarea{
+        font-size: 3.5vw;
+    }
+
+    .btn img{
+        width: 5vw;
+    }
+}
+
+
+@media screen and (max-width:560px) {
+    
+    .header img{
+        width: 12vw;
+    }
+    
+    .header h5{
+        font-size: 5vw;
+    }
+
+    .chatbox textarea{
+        font-size: 4.5vw;
+    }
 }

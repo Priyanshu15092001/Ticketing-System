@@ -84,3 +84,94 @@ footer{
 footer img{
     width: 6vw;
 }
+
+@media screen and (max-width:1440px) {
+    
+    .leftContent h2{
+        font-size:4vw;
+    }
+    
+    .leftContent p{
+        font-size: 1.6vw;
+        line-height: 1.8rem;
+    }
+    
+    /* .buttons{
+        display: flex;
+        flex-direction: row;
+        gap: 3rem;
+    } */
+    
+    .button{
+        padding: 8px;
+        border-radius: 10px;
+    }
+
+    .button span{
+        font-size: 1.5vw;
+    }
+
+    .button img{
+        width: 2vw;
+    }
+    
+    .playVid span{
+        font-size: 1.5vw;
+    }
+
+    
+    .rightContent img{
+        width: 43vw;
+        object-fit: contain;
+    }
+    
+    footer img{
+        width: 10vw;
+    }
+}
+
+@media screen and (max-width:1023px) {
+    
+
+    .leftContent h2{
+        font-size: 4.5vw;
+    }
+    
+    .leftContent p{
+        font-size: 2.2vw;
+        line-height: 1.8rem;
+    }
+
+    .button{
+        padding: 9px;
+    }
+    
+    .button span{
+        font-size: 2.4vw;
+    }
+
+    .button img{
+        width: 2.8vw;
+    }
+    
+    .playVid span{
+        font-size: 2.4vw;
+    }
+        
+    footer img{
+        width: 13vw;
+    }
+}
+
+@media screen and (max-width:850px) {
+    
+    .leftContent p{
+        font-size: 2.2vw;
+        line-height: 1.8rem;
+    }
+
+        
+    footer img{
+        width: 13vw;
+    }
+}
