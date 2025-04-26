@@ -57,7 +57,7 @@ const createTicketFromChat = async (req, res) => {
     await Message.insertMany(followUpMessages);
 
     // Fetch messages in the correct order
-    const allMessages = await Message.find({ ticket: newTicket._id }).sort({ createdAt: 1 });
+    const allMessages = await Message.find({ ticket: newTicket._id }).sort({ createdAt: -1 });
 
     res.status(201).json({
       message: "Ticket created and messages sent",
@@ -148,4 +148,21 @@ const createTicketFromChat = async (req, res) => {
     }
   };
 
-  module.exports = {createTicketFromChat,updateTicketStatus,reassignTicket,getTickets}
+  const getTicketStatus = async (req,res)=>{
+    try {
+      const {id} =req.params
+      const ticket = await Ticket.findById(id)
+      if(ticket){
+        res.status(200).json({message:"Ticket status fetched succesfully",ticketStatus:ticket.status})
+      }
+      else{
+        res.status(404).json({message:"Ticket not found"})
+      }
+    } catch (error) {
+      console.error("Fetch ticket status error:",error);
+      res.status(500).json({message:"Internal Server Error"})
+      
+    }
+  }
+
+  module.exports = {createTicketFromChat,updateTicketStatus,reassignTicket,getTickets,getTicketStatus}
