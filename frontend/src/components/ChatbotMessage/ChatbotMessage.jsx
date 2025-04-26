@@ -3,23 +3,40 @@ import styles from "./ChatbotMessage.module.css";
 import chatbotDp from "../../assets/Chatbot/botDp.svg";
 import DefaultMessage from "../DefaultMessage/DefaultMessage";
 export default function ChatbotMessage({
+  firstMessage,
+  setFirstMessage,
+  firstMessageContent,
   message,
-  botMessage,
-  defaultMessage,
-  index,
-  
+  messages,
+  setMessages,
 }) {
-
   // const showBotDp = botMessage && (index === 0 || !messages[index - 1].botMessage)
   return (
     <div
       className={`${styles.messageContainer} ${
-        botMessage ? styles.receive : styles.send
+        firstMessage == true || message?.senderType == "customer"
+          ? styles.send
+          : styles.receive
       }`}
     >
-      {botMessage ? <img src={chatbotDp} alt="Bot Pic" /> : <></>}
-
-      {defaultMessage ? <DefaultMessage /> : <p>{message}</p>}
+      {message?.senderType == "system" ? (
+        <img src={chatbotDp} alt="Bot Pic" />
+      ) : (
+        <></>
+      )}
+      {firstMessage ? (
+        <div className={styles.firstMessage}>
+          <p>{firstMessageContent}</p>
+          <DefaultMessage
+            firstMessageContent={firstMessageContent}
+            setFirstMessage={setFirstMessage}
+            messages={messages}
+            setMessages={setMessages}
+          />
+        </div>
+      ) : (
+        <p>{message?.content}</p>
+      )}
     </div>
   );
 }

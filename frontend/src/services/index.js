@@ -205,6 +205,9 @@ export async function updateTicketStatus(id){
 
 export async function sendMessages(id,message){
   try {
+
+    console.log(id,message);
+    
     const res = await fetch(`${URL}/api/messages/${id}/send`,{
       method:'POST',
       headers:{
@@ -214,6 +217,42 @@ export async function sendMessages(id,message){
     })
 
     return res;
+  } catch (error) {
+    console.error(error);
+    throw error
+    
+  }
+}
+
+export async function createTicket(formData,firstMessageContent){
+  try {
+    const res = await fetch(`${URL}/api/tickets`,{
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json",
+      },
+      body:JSON.stringify({
+        name:formData.name,
+        phone:formData.phone,
+        email:formData.email,
+        firstMessageContent:firstMessageContent
+      })
+    })
+
+    return res;
+  } catch (error) {
+    console.error(error);
+    throw error
+  }
+}
+
+export async function getTicketStatus(id){
+  try {
+    const res = await fetch(`${URL}/api/tickets/${id}/status`,{
+      method:"GET"
+    })
+
+    return res
   } catch (error) {
     console.error(error);
     throw error

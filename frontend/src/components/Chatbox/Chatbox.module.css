@@ -61,6 +61,7 @@
     padding: 9px;
     background: transparent;
     border: none;
+    cursor: pointer;
 }
 
 .chatbox textarea::placeholder{
