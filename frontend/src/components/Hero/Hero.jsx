@@ -14,7 +14,7 @@ export default function Hero() {
     <section className={styles.container}>
         <div className={styles.body}>
             <div className={styles.leftContent}>
-                <h2>Grow Your Business Faster<br/>With Hubly CRM</h2>
+                <h2>Grow Your Business Faster With Hubly CRM</h2>
                 <p>Manage leads, automate workflows, and close deals effortlessly—all in one powerful platform.</p>
                 <div className={styles.buttons}>
                   <button className={styles.button}>

@@ -13,39 +13,34 @@ export default function About() {
         <p>
           Hubly helps businesses streamline customer interactions, track leads,
           and automate tasks—
-          <br />
           saving you time and maximizing revenue. Whether you’re a startup or an
-          enterprise, Hubly
-          <br /> adapts to your needs, giving you the tools to scale
+          enterprise, Hubly adapts to your needs, giving you the tools to scale
           efficiently.
         </p>
       </div>
       <div className={styles.body}>
         <div className={styles.leftContent}>
           <div className={styles.workDefine}>
-            <h4 style={{ fontSize: "1.3vw", color: "#30404d" }}>
+            <h3 className={styles.workDefineHeader}>
               Multiple Platforms Together!
-            </h4>
-            <p>
+            </h3>
+            <p >
               Email communication is a breeze with our fully integrated, drag &
-              drop
-              <br /> email builder.
+              drop email builder.
             </p>
           </div>
           <div className={styles.workDefine}>
             <h4>CLOSE</h4>
             <p>
               Capture leads using our landing pages, surveys, forms, calendars,
-              inbound phone
-              <br /> system & more!
+              inbound phone system & more!
             </p>
           </div>
           <div className={styles.workDefine}>
             <h4>NURTURE</h4>
             <p>
               Capture leads using our landing pages, surveys, forms, calendars,
-              inbound phone
-              <br /> system & more!
+              inbound phone system & more!
             </p>
           </div>
         </div>

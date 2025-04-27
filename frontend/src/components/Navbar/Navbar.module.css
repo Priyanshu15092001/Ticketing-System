@@ -53,3 +53,87 @@
     font-weight: 500;
     font-size: 1.1vw;
 }
+
+@media screen and (max-width:1440px) {
+
+    .logo{
+        gap: 1rem;
+    }
+
+    .logo img{
+        width: 4.5vw;
+    }
+    
+    .logo h1{
+        font-size: 2.5vw;
+    }
+    
+    .buttons{
+        gap: 1rem;
+    }
+    
+    .buttons a{
+        font-size: 1.8vw;
+    }
+    
+    .buttons button{
+        /* padding: 1rem; */
+        width: 8vw;
+        height: 3.5vw;
+        font-size: 1.8vw;
+    }
+}
+
+@media screen and (max-width:1023px) {
+
+
+    .logo img{
+        width: 6.5vw;
+    }
+    
+    .logo h1{
+        font-size: 4vw;
+    }
+    
+
+    .buttons a{
+        font-size: 3vw;
+    }
+    
+    .buttons button{
+        /* padding: 1rem; */
+        width: 14vw;
+        height: 5.5vw;
+        font-size: 3vw;
+    }
+}
+
+@media screen and (max-width:850px) {
+
+    .logo{
+        gap: 1rem;
+    }
+
+    .logo img{
+        width: 8vw;
+    }
+    
+    .logo h1{
+        font-size: 5vw;
+    }
+    
+    .buttons{
+        gap: 1rem;
+    }
+    
+    .buttons a{
+        font-size: 3.5vw;
+    }
+    
+    .buttons button{
+        /* padding: 1rem; */
+        width: 15vw;
+        height: 7vw;
+        font-size: 3.5vw;
+    }
+}
