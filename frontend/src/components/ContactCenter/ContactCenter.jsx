@@ -10,38 +10,96 @@ export default function ContactCenter() {
     ticket,
     setTicket,
     setSelectedChat,
+    chatList,
     setChatList,
-    setCurrentMember
+    setCurrentMember,
   } = useContext(TicketContext);
 
   const [members, setMembers] = useState([]);
   const [selectedUser, setSelectedUser] = useState();
   const [chats, setChats] = useState([]);
 
-
-  
-
   useEffect(() => {
     getTickets("")
       .then(async (response) => {
         const data = await response.json();
         if (response.ok) {
-          
           setChatList(data.tickets);
 
-          if(!ticket._id)
-            setSelectedChat(data?.tickets[0]?._id);
-          else
-            setSelectedChat(ticket?._id)
+          if (data.tickets.length == 0) {
+            localStorage.removeItem("ticketId");
+          }
 
-          if(!ticket)
-            setTicket(data.tickets[0]);
-          
-          // if (data.tickets.length == 0) {
-          //   setDisabled(true);
-          // } else {
-          //   setDisabled(false);
-          // }
+          if (ticket?._id) {
+            const chosenTicket = data?.tickets.find(
+              (item) => item._id === ticket?._id
+            );
+            if (chosenTicket) {
+              setSelectedChat(ticket?._id);
+              localStorage.setItem("ticketId", ticket?._id);
+            } else {
+              setSelectedChat(data?.tickets[0]?._id);
+
+              localStorage.setItem("ticketId", data?.tickets[0]?._id);
+            }
+          } else if (localStorage.getItem("ticketId")) {
+            const chosenTicket = data?.tickets.find(
+              (ticket) => ticket._id === localStorage.getItem("ticketId")
+            );
+
+            if (!chosenTicket) {
+              if (data?.tickets.length !== 0) {
+                setSelectedChat(data?.tickets[0]?._id);
+
+                localStorage.setItem("ticketId", data?.tickets[0]?._id);
+              }
+            } else {
+              setSelectedChat(localStorage.getItem("ticketId"));
+            }
+          } else {
+            if (data?.tickets.length !== 0) {
+              setSelectedChat(data?.tickets[0]?._id);
+              localStorage.setItem("ticketId", data?.tickets[0]?._id);
+            }
+          }
+
+          if (!ticket) {
+            if (localStorage.getItem("ticketId")) {
+              const chosenTicket = data?.tickets.find(
+                (ticket) => ticket._id === localStorage.getItem("ticketId")
+              );
+
+              if (chosenTicket) {
+                setTicket(chosenTicket);
+              } else {
+                if (data?.tickets.length == 0) {
+                  setTicket(null);
+                } else {
+                  setTicket(data?.tickets[0]);
+                }
+              }
+            } else {
+              if (data?.tickets.length == 0) {
+                setTicket(null);
+              } else {
+                setTicket(data?.tickets[0]);
+              }
+            }
+          } else {
+            const chosenTicket = data?.tickets.find(
+              (item) => item._id === ticket?._id
+            );
+
+            if (chosenTicket) {
+              setTicket(chosenTicket);
+            } else {
+              if (data?.tickets.length == 0) {
+                setTicket(null);
+              } else {
+                setTicket(data?.tickets[0]);
+              }
+            }
+          }
         }
       })
       .catch((error) => {
@@ -62,8 +120,7 @@ export default function ContactCenter() {
             (user) => user._id === ticket.assignedTo
           );
           if (matchedUser) {
-            
-            setCurrentMember(matchedUser)
+            setCurrentMember(matchedUser);
             setSelectedUser(matchedUser);
 
             // matchedUser._id === ticket.assignedTo
@@ -80,10 +137,7 @@ export default function ContactCenter() {
   return (
     <div className={styles.container}>
       <Chatbar />
-      <UserChat
-        chats={chats}
-        setChats={setChats}
-      />
+      <UserChat chats={chats} setChats={setChats} />
       <TicketDetails
         members={members}
         selectedUser={selectedUser}

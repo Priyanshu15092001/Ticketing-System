@@ -27,6 +27,7 @@ export default function Chatbar() {
               isActive={selectedChat === chat._id}
               onSelect={() => {
                 setSelectedChat(chat._id);
+                localStorage.setItem("ticketId",chat._id)
                 setTicket({...chat});
                 // console.log("check",chat);
                 
