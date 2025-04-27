@@ -26,9 +26,11 @@
     gap: 1rem;
   }
   
-  .selected img {
-    width: 30px;
-    height: 30px;
+  .selectedImg {
+    /* width: 30px;
+    height: 30px; */
+    width: 15%;
+    height: 15%;
     border-radius: 50%;
   }
   
@@ -79,9 +81,9 @@
   
 
   @media screen and (max-width:1440px) {
-    .selected  img{
+    /* .selected  img{
       width: 4vw;
-    }
+    } */
 
     .selected div span{
       font-size: 2vw;
@@ -97,9 +99,9 @@
   }
 
   @media screen and (max-width:1024px) {
-    .selected div img{
+    /* .selected div img{
       width: 5vw;
-    }
+    } */
 
     .selected div span{
       font-size: 2.5vw;

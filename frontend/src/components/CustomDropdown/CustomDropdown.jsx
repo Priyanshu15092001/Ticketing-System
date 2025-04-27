@@ -48,7 +48,7 @@ export default function CustomDropdown({
       <div className={`${styles.selected} ${disableDropdown ? styles.disabled : ''}`} onClick={toggleDropdown}>
         <div>
           {
-            !disableDropdown?<img src={admin} alt="admin pic" />:<img src={teamLogo} alt="disabled" style={{width:"1vw"}} />
+            !disableDropdown?<img src={admin} className={styles.selectedImg} alt="admin pic" />:<img src={teamLogo} className={styles.selectedImg} alt="disabled"  />
           }
           
           <span>

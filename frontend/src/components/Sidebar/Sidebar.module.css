@@ -13,7 +13,7 @@
 }
 
 .logo {
-  width: 3vw;
+  width: 60%;
   margin-bottom: 2.5rem;
 }
 
@@ -24,7 +24,7 @@
 }
 
 .navItem img {
-  width: 1.2vw;
+  width: 25%;
 }
 
 .navItem {
@@ -37,9 +37,10 @@
 }
 
 .label {
-  font-size: 0.6vw;
+  font-size: 60%;
   color: #424242;
   font-family: "Poppins", sans-serif;
+  text-align: center;
 }
 
 .online{
