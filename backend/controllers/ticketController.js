@@ -1,7 +1,9 @@
 const Ticket= require('../models/Ticket')
 const User = require('../models/User')
 const Message = require('../models/Message')
+const Settings = require('../models/Settings')
 const {generateTicketId} = require('../utils/generateTicketId')
+const { checkAndMarkMissedChats } = require('../utils/chatUtils')
 
 const createTicketFromChat = async (req, res) => {
   try {
@@ -35,28 +37,31 @@ const createTicketFromChat = async (req, res) => {
       createdAt: new Date(),
     });
 
+    // 👇 Fetch default follow-up messages from Settings
+    const settings = await Settings.findOne(); 
+    let defaultMessages = [];
+
+    if (settings?.defaultMessages && Array.isArray(settings.defaultMessages)) {
+      defaultMessages = settings.defaultMessages;
+    } else {
+      defaultMessages = [
+        "How can I help you today?",
+        "Ask me anything about your issue!",
+      ];
+    }
+
     const currentDate = new Date();
 
-    const followUpMessages = [
-      {
-        ticket: newTicket._id,
-        senderType: "system",
-        senderName: "System",
-        content: "How can I help you today?",
-        createdAt: new Date(currentDate.getTime() + 1000),  // Adding 1 second to ensure ordering
-      },
-      {
-        ticket: newTicket._id,
-        senderType: "system",
-        senderName: "System",
-        content: "Ask me anything about your issue!",
-        createdAt: new Date(currentDate.getTime() + 2000),  // Adding 2 seconds to ensure ordering
-      },
-    ];
+    const followUpMessages = defaultMessages.map((msg, index) => ({
+      ticket: newTicket._id,
+      senderType: "system",
+      senderName: "System",
+      content: msg,
+      createdAt: new Date(currentDate.getTime() + (index + 1) * 1000), 
+    }));
 
     await Message.insertMany(followUpMessages);
 
-    // Fetch messages in the correct order
     const allMessages = await Message.find({ ticket: newTicket._id }).sort({ createdAt: -1 });
 
     res.status(201).json({
@@ -69,6 +74,7 @@ const createTicketFromChat = async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
 
 
   const updateTicketStatus = async (req, res) => {
@@ -129,6 +135,8 @@ const createTicketFromChat = async (req, res) => {
       const assignedTo = req.user.id; 
   
       const query = { assignedTo };
+
+      await checkAndMarkMissedChats();
   
       if (status) {
         if (!["resolved", "unresolved"].includes(status)) {
