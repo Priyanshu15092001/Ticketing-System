@@ -259,3 +259,33 @@ export async function getTicketStatus(id){
     
   }
 }
+
+export async function getSettings(){
+  try {
+    const res = await fetch(`${URL}/api/settings`,{
+      method:'GET'
+    })
+    return res
+  } catch (error) {
+    console.error(error);
+    throw error
+  }
+}
+
+export async function updateSettings(settings){
+  try {
+    const res =await fetch(`${URL}/api/settings`,{
+      method:'PUT',
+      headers:{
+        "Content-Type":"application/json",
+        Authorization:localStorage.getItem("token")
+      },
+      body:JSON.stringify(settings)
+    })
+
+    return res
+  } catch (error) {
+    console.error(error);
+    throw error
+  }
+}

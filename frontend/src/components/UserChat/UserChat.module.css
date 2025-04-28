@@ -48,6 +48,14 @@
     padding-bottom: 5px;
 }
 
+.missedChat{
+    text-align: center;
+    font-size: 0.7vw;
+    color: #FF0000;
+    font-family: 'Inter',sans-serif;
+    font-weight: 500;
+}
+
 .chatBody::-webkit-scrollbar {
     width: 5px;
   }

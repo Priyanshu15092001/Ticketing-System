@@ -1,63 +1,47 @@
 import { createContext, useEffect, useState } from "react";
+import { getSettings } from "../services/index";
+import { toast } from "react-toastify";
 
 export const ChatbotContext = createContext();
 
 export const ChatbotProvider = ({ children }) => {
-  const storedHeaderColor = localStorage.getItem("headerColor") || "#33475b";
+  const [selectedHeaderColor, setSelectedHeaderColor] = useState("");
 
-  const [selectedHeaderColor, setSelectedHeaderColor] =
-    useState(storedHeaderColor);
+  const [selectedBackgroundColor, setSelectedBackgroundColor] = useState("");
 
-  const storedBackgroundColor =
-    localStorage.getItem("backgroundColor") || "#eee";
+  const [welcomeMessage, setWelcomeMessage] = useState("");
 
-  const [selectedBackgroundColor, setSelectedBackgroundColor] = useState(
-    storedBackgroundColor
-  );
+  const [customizeMessages, setCustomizeMessages] = useState([]);
 
-  const storedWelcomeMessage = localStorage.getItem('welcomeMessage') || "👋 Want to chat about Hubly? I'm a chatbot here to help you find your way.";
+  const [formPlaceholders, setFormPlaceholders] = useState();
 
-  const [welcomeMessage, setWelcomeMessage] = useState(storedWelcomeMessage);
-
-  const [customizeMessages, setCustomizeMessages] = useState(() => {
-    const storedMessages = localStorage.getItem("customizeMessages");
-    return storedMessages ? JSON.parse(storedMessages) : ["How can I help you?", "Ask me anything!"];
+  const [missedChatTimer,setMissedChatTimer]=useState({
+    hours:"00",
+    minutes:"00",
+    seconds:""
   });
 
-  const [formPlaceholders, setFormPlaceholders] = useState(() => {
-    const storedPlaceholder = localStorage.getItem("formPlaceholders");
-    return storedPlaceholder
-      ? JSON.parse(storedPlaceholder)
-      : {
-          name: "Your name",
-          phone: "+91-838383444",
-          email: "example@gmail.com",
-        };
-  });
+  const [missedChatTimerInSec,setMissedChatTimerInSec] = useState()
 
   useEffect(() => {
-    localStorage.setItem("headerColor", selectedHeaderColor);
-  }, [selectedHeaderColor]);
-
-  useEffect(() => {
-    localStorage.setItem("backgroundColor", selectedBackgroundColor);
-  }, [selectedBackgroundColor]);
-
-  useEffect(() => {
-    localStorage.setItem('welcomeMessage', welcomeMessage);
-  }, [welcomeMessage]);
-
-
-  useEffect(() => {
-    localStorage.setItem("customizeMessages", JSON.stringify(customizeMessages));
-  }, [customizeMessages]);
-
-
-
-
-  useEffect(() => {
-    localStorage.setItem("formPlaceholders", JSON.stringify(formPlaceholders));
-  }, [formPlaceholders]);
+    getSettings()
+    .then(async(response)=>{
+        const data= await response.json()
+        if(response.ok){
+          setSelectedHeaderColor(data.settings.headerColor)
+          setSelectedBackgroundColor(data.settings.backgroundColor)
+          setWelcomeMessage(data.settings.welcomeMessage)
+          setCustomizeMessages(data.settings.defaultMessages)
+          setFormPlaceholders(data.settings.formPlaceholders)
+          setMissedChatTimerInSec(data.settings.missedChatTimerInSeconds)
+          // console.log(data.settings.missedChatTimerInSec);
+          
+        }
+    })
+    .catch((error)=>{
+        toast.error(error)
+    })
+  }, []);
 
   return (
     <ChatbotContext.Provider
@@ -71,7 +55,11 @@ export const ChatbotProvider = ({ children }) => {
         customizeMessages,
         setCustomizeMessages,
         formPlaceholders,
-        setFormPlaceholders
+        setFormPlaceholders,
+        missedChatTimer,
+        setMissedChatTimer,
+        missedChatTimerInSec,
+        setMissedChatTimerInSec
       }}
     >
       {children}
