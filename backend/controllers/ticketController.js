@@ -173,4 +173,7 @@ const createTicketFromChat = async (req, res) => {
     }
   }
 
+ 
+  
+
   module.exports = {createTicketFromChat,updateTicketStatus,reassignTicket,getTickets,getTicketStatus}

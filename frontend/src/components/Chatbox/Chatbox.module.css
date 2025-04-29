@@ -38,6 +38,13 @@
     overflow-y: auto;
 }
 
+.defaultInfo{
+    font-size: 0.8vw;
+    font-family: "Helvetica",sans-serif;
+    color: #8498B6;
+    text-align: center;
+}
+
 .chatbox{
     height: 10%;
     background-color: #fff;
@@ -85,6 +92,9 @@
         font-size: 1.8vw;
     }
     
+    .defaultInfo{
+        font-size: 1vw;
+    }
     
     .chatbox{
         height: 13%;
@@ -114,6 +124,11 @@
         font-size: 2vw;
     }
     
+    .defaultInfo{
+        font-size: 1.3vw;
+    }
+
+
     .chatbox textarea{
         font-size: 1.9vw;
     }
@@ -139,6 +154,10 @@
     }
     
     
+    .defaultInfo{
+        font-size: 1.8vw;
+    }
+
     .chatbox{
         height: 13%;
     }

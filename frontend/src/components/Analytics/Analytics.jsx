@@ -1,15 +1,65 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./Analytics.module.css";
-import reports from "../../assets/Analytics/Reports.svg";
-import piechart from "../../assets/Analytics/pie chart.svg";
+import MissedChatsChart from "../MissedChatChart/MissedChatChart";
+import { getAverageReplyTime, getTotalAndResolvedChats } from "../../services";
+import { toast } from "react-toastify";
+import CircleProgress from "../CircleProgress/CircleProgress";
 export default function Analytics() {
+
+const [averageReplyTime,setAverageReplyTime]=useState(0)
+const [chatStats,setChatStats] = useState({
+  resolvedChatPercentage:0,
+  totalChats:0
+})
+
+  useEffect(() => {
+    getAverageReplyTime()
+    .then(async(response)=>{
+      const data= await response.json()
+      if(response.ok){
+        // console.log(data?.getAverageReplyTimeInSeconds);
+        
+        setAverageReplyTime(data?.averageReplyTimeInSeconds)
+      }
+      else{
+        toast.error("Failed to get data")
+      }
+
+    })
+    .catch((error)=>{
+      console.error(error);
+      toast.error("Internal Server Error")
+    })
+  }, []);
+
+
+  useEffect(() => {
+    getTotalAndResolvedChats()
+    .then(async(response)=>{
+      const data=await response.json();
+
+      if(response.ok){
+        setChatStats((prev)=>({...prev,resolvedChatPercentage:data.resolvedPercentage,totalChats:data.totalTickets}))
+      }
+      else{
+        toast.error("Failed to get data")
+      }
+    })
+    .catch((error)=>{
+      console.error(error);
+      toast.error("Internal Server Error")
+      
+    })
+  }, []);
+
   return (
     <div className={styles.container}>
       <h2 className={styles.header}>Analytics</h2>
       <div className={styles.contents}>
         <div className={styles.content}>
           <h3>Missed Chats</h3>
-          <img src={reports} className={styles.report} alt="Report" />
+          {/* <img src={reports} className={styles.report} alt="Report" /> */}
+          <MissedChatsChart/>
         </div>
         <div className={styles.content}>
           <div className={styles.contentContainer}>
@@ -22,7 +72,7 @@ export default function Analytics() {
                 customers trust and make more sales.
               </p>
             </div>
-            <h4>0 secs</h4>
+            <h4>{averageReplyTime} secs</h4>
           </div>
         </div>
 
@@ -37,20 +87,21 @@ export default function Analytics() {
                 motivate more customers to make calls.
               </p>
             </div>
-            <img src={piechart} alt="" />
+            {/* <img src={piechart} alt="" /> */}
+            <CircleProgress percentage={chatStats.resolvedChatPercentage}/>
           </div>
         </div>
 
         <div className={styles.content}>
           <div className={styles.contentContainer}>
             <div className={styles.detailContent}>
-              <h3>Total Chats</h3>
+              <h3 style={{color:"#000"}}>Total Chats</h3>
               <p>
                 This metric Shows the total number of chats for all Channels for
                 the selected the selected period
               </p>
             </div>
-            <h4>122 Chats</h4>
+            <h4>{chatStats.totalChats} Chats</h4>
           </div>
         </div>
       </div>

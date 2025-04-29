@@ -19,7 +19,6 @@ export default function Dashboard() {
       .then(async (response) => {
         const data = await response.json();
         if (response.ok) {
-          console.log(data);
           setTickets(data.tickets);
           setSearchedTickets(data.tickets);
         } else {

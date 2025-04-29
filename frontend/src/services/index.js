@@ -136,7 +136,6 @@ export async function deleteMember(id){
 export async function getTickets(status){
 
   const query = new URLSearchParams({status});
-  console.log(query);
   
   try {
     const res=await fetch(`${URL}/api/tickets?${query}`,{
@@ -281,6 +280,51 @@ export async function updateSettings(settings){
         Authorization:localStorage.getItem("token")
       },
       body:JSON.stringify(settings)
+    })
+
+    return res
+  } catch (error) {
+    console.error(error);
+    throw error
+  }
+}
+
+export async function getWeeklyMissedChatUpdate(){
+  try {
+    const res =await fetch(`${URL}/api/analytics/missed-chats/weekly`,{
+      headers:{
+        Authorization:localStorage.getItem("token")
+      }
+    })
+    return res
+  } catch (error) {
+    console.error(error);
+    throw error
+    
+  }
+}
+
+export async function getAverageReplyTime(){
+  try {
+    const res= await fetch(`${URL}/api/analytics/average-reply-time`,{
+      headers:{
+        Authorization:localStorage.getItem("token")
+      }
+    })
+    return res
+  } catch (error) {
+    console.error(error);
+    throw error
+    
+  }
+}
+
+export async function getTotalAndResolvedChats(){
+  try {
+    const res = await fetch(`${URL}/api/analytics/ticket-stats`,{
+      headers:{
+        Authorization:localStorage.getItem("token")
+      }
     })
 
     return res
