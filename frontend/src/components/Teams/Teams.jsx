@@ -15,8 +15,6 @@ export default function Teams() {
     getAllMembers()
       .then(async (response) => {
         const data = await response.json();
-        console.log(data);
-
         if (response.ok) {
           setTeams(data.teams);
         } else {

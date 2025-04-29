@@ -36,6 +36,7 @@
     .container{
         height: 100dvh;
         overflow: hidden;
+        background-color: #fff;
     }
 
     .chatbot{

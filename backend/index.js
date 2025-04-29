@@ -9,7 +9,8 @@ const profileRoutes =require('./routes/profileRoutes')
 const teamRoutes = require('./routes/teamRoutes')
 const ticketRoutes = require('./routes/ticketRoutes')
 const messageRoutes = require('./routes/messageRoutes')
-const settingsRoute = require('./routes/settingsRoutes')
+const settingsRoutes = require('./routes/settingsRoutes')
+const analyticsRoutes = require('./routes/analyticsRoutes')
 const app = express();
 const port = process.env.PORT || 8080;
 
@@ -20,8 +21,9 @@ app.use('/api/auth',authRoutes)
 app.use('/api/profile',profileRoutes)
 app.use('/api/teams',teamRoutes)
 app.use('/api/tickets',ticketRoutes)
-app.use("/api/messages", messageRoutes);
-app.use('/api/settings',settingsRoute)
+app.use("/api/messages", messageRoutes)
+app.use('/api/settings',settingsRoutes)
+app.use('/api/analytics',analyticsRoutes)
 
 //connect to db and start server
 connectToDb();

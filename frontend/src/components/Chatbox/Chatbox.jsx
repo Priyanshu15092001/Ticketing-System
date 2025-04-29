@@ -22,6 +22,7 @@ export default function Chatbox() {
 
   const [messages, setMessages] = useState([]);
 
+  const [defaultInfo,setDefaultInfo] =useState(true)
   // useEffect(() => {
 
   // }, [messages]);
@@ -29,7 +30,7 @@ export default function Chatbox() {
   useEffect(() => {
     if (localStorage.getItem("ticket")) {
       const ticket = JSON.parse(localStorage.getItem("ticket"));
-
+      setDefaultInfo(false)
       getTicketStatus(ticket._id)
         .then(async(response) => {
           const data = await response.json();
@@ -61,6 +62,9 @@ export default function Chatbox() {
           console.error(error);
         });
     }
+    else{
+      setDefaultInfo(true)
+    }
   }, []);
 
   const handleChange = (e) => {
@@ -85,6 +89,7 @@ export default function Chatbox() {
     // setMessage((prev)=>({...prev,senderName:ticket.customer.name}))
     if (messages.length == 0) {
       setFirstMessageContent(message.content);
+      setDefaultInfo(false)
       setFirstMessage(true);
       setMessage({
         senderType: "customer",
@@ -150,6 +155,10 @@ export default function Chatbox() {
            }
           )
         )}
+
+        {
+          defaultInfo?<span className={styles.defaultInfo}>Start a conversation</span>:<></>
+        }
       </div>
       <div className={styles.chatbox}>
         <textarea
