@@ -4,6 +4,8 @@
     padding: 1rem;
     display: flex;
     flex-direction: column;
+    gap:2rem;
+    overflow-y: auto;
 }
 
 .header{
@@ -32,9 +34,7 @@
     font-family: 'Inter',sans-serif;
 }
 
-.report{
-    width: 30vw;
-}
+
 
 .contentContainer{
     display: flex;
@@ -42,7 +42,7 @@
     justify-content: space-between;
 }
 .contentContainer h4{
-    font-size: 1vw;
+    font-size: 1.2vw;
     color: #00D907;
 }
 
@@ -54,6 +54,64 @@
 }
 
 .detailContent p{
-    font-size: 0.7vw;
+    font-size: 0.8vw;
+    font-weight: 500;
+    font-family: "Inter",sans-serif;
 }
 
+@media screen and (max-width:1440px) {
+    .header{
+        font-size: 1.6vw;
+    }
+    
+    
+    
+    .content{
+        gap: 1rem;
+    }
+    
+    .content h3{
+        font-size: 1.6vw;
+    }
+    
+    .contentContainer h4{
+        font-size: 1.6vw;
+    }
+    
+    .detailContent{
+        gap: 1rem;
+    }
+    
+    .detailContent p{
+        font-size: 1.1vw;
+    }
+    
+}
+
+@media screen and (max-width:768px) {
+    .header{
+        font-size: 2.3vw;
+    }
+    
+    .contents{
+        width:85%
+    }
+    
+    .content h3{
+        font-size: 2.6vw;
+    }
+    
+    .contentContainer h4{
+        font-size: 2.6vw;
+        
+    }
+    
+    .detailContent{
+        gap: 1rem;
+    }
+    
+    .detailContent p{
+        font-size: 1.8vw;
+    }
+    
+}

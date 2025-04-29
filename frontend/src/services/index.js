@@ -289,3 +289,48 @@ export async function updateSettings(settings){
     throw error
   }
 }
+
+export async function getWeeklyMissedChatUpdate(){
+  try {
+    const res =await fetch(`${URL}/api/analytics/missed-chats/weekly`,{
+      headers:{
+        Authorization:localStorage.getItem("token")
+      }
+    })
+    return res
+  } catch (error) {
+    console.error(error);
+    throw error
+    
+  }
+}
+
+export async function getAverageReplyTime(){
+  try {
+    const res= await fetch(`${URL}/api/analytics/average-reply-time`,{
+      headers:{
+        Authorization:localStorage.getItem("token")
+      }
+    })
+    return res
+  } catch (error) {
+    console.error(error);
+    throw error
+    
+  }
+}
+
+export async function getTotalAndResolvedChats(){
+  try {
+    const res = await fetch(`${URL}/api/analytics/ticket-stats`,{
+      headers:{
+        Authorization:localStorage.getItem("token")
+      }
+    })
+
+    return res
+  } catch (error) {
+    console.error(error);
+    throw error
+  }
+}
