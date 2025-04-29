@@ -22,8 +22,13 @@
     text-align: left;
     font-family: "Inter",sans-serif;
     font-weight: 500;
-
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    white-space: normal;
+    padding-right: 13px;
 }
+
 
 .data li img{
     width: 2vw;
@@ -52,7 +57,7 @@
 @media screen and (max-width:1024px) {
     .data li{
         width: 17vw;
-        font-size: 1.6vw;
+        font-size: 1.5vw;
     }
 
     .data li img{

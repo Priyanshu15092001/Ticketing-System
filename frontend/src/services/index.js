@@ -136,7 +136,6 @@ export async function deleteMember(id){
 export async function getTickets(status){
 
   const query = new URLSearchParams({status});
-  console.log(query);
   
   try {
     const res=await fetch(`${URL}/api/tickets?${query}`,{
