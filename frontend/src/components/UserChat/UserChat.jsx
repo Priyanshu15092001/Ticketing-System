@@ -12,6 +12,7 @@ export default function UserChat({ chats, setChats }) {
   const [notify, setNotify] = useState("");
 
   const [disabledChat, setDisabledChat] = useState(false);
+  const [totalSystemMessages, setTotalSystemMessages] = useState(0);
 
   const [message, setMessage] = useState({
     senderType: "system",
@@ -19,18 +20,13 @@ export default function UserChat({ chats, setChats }) {
     content: "",
   });
 
-  // useEffect(() => {
-
-  // }, [chats,notify]);
-
   useEffect(() => {
     let disabled = false;
 
     if (chatList.length === 0) {
       setNotify("No chats to display");
       disabled = true;
-    }
-    else if (localStorage.getItem("user") !== ticket?.assignedTo) {
+    } else if (localStorage.getItem("user") !== ticket?.assignedTo) {
       setNotify(
         "This chat is assigned to a new team member. You no longer have access"
       );
@@ -48,6 +44,10 @@ export default function UserChat({ chats, setChats }) {
           if (response.ok) {
             setChats(data?.messages);
             setDisabledChat(false);
+            setTotalSystemMessages(
+              data?.messages.filter((chat) => chat.senderType === "system")
+                .length
+            );
           }
         })
         .catch((error) => {
@@ -57,7 +57,13 @@ export default function UserChat({ chats, setChats }) {
     }
 
     setDisabledChat(disabled);
-  }, [ticket?.status, ticket?.assignedTo, currentMember, ticket?._id,chatList]);
+  }, [
+    ticket?.status,
+    ticket?.assignedTo,
+    currentMember,
+    ticket?._id,
+    chatList,
+  ]);
 
   // useEffect(() => {
   //   if (ticket?._id && ticket?.status==="unresolved") {
@@ -140,12 +146,19 @@ export default function UserChat({ chats, setChats }) {
             chat.senderType !== nextChat?.senderType;
 
           return (
-            <Message
-              chat={chat}
-              showImage={showImage}
-              key={index}
-              currentMember={currentMember}
-            />
+            <React.Fragment key={index}>
+              {ticket?.isMissed && totalSystemMessages == 2 && index == chats.length%3 ? (
+                <p className={styles.missedChat}>Replying to missed chat</p>
+              ) : (
+                <></>
+              )}
+              <Message
+                chat={chat}
+                showImage={showImage}
+                key={index}
+                currentMember={currentMember}
+              />
+            </React.Fragment>
           );
         })}
         {chatList.length !== 0 ? (

@@ -7,10 +7,11 @@ import sendBtn from "../../assets/Chatbot/sendBtn.svg";
 import editBtn from "../../assets/Chatbot/editBtn.svg";
 import TimePicker from "../TimePicker/TimePicker";
 import { ChatbotContext } from "../../contexts/ChatbotContext";
+import { updateSettings } from "../../services/index";
+import { toast } from "react-toastify";
 export default function Chatbot() {
   // TODO: change default message placeholder with formplaceholder
 
-  const headerColors = ["#33475b", "#fff", "#000"];
   const {
     selectedHeaderColor,
     setSelectedHeaderColor,
@@ -21,10 +22,53 @@ export default function Chatbot() {
     customizeMessages,
     setCustomizeMessages,
     formPlaceholders,
-    setFormPlaceholders
+    setFormPlaceholders,
+    missedChatTimer
   } = useContext(ChatbotContext);
+  
+  const headerColors = ["#33475b", "#fff", "#000"];
+
+  const handleHeaderColor=(color)=>{
+   
+    setSelectedHeaderColor(color)
+    const settings={}
+    settings.headerColor=color
+
+    updateSettings(settings)
+    .then(async(response)=>{
+      const data= await response.json()
+      if(response.ok){
+        toast.success("Header color changed")
+      }
+      else{
+        toast.error("Failed to update header color")
+      }
+    }).catch((error)=>{
+      toast.error("Error changing header color")
+    })
+  }
 
   const backgroundColors = ["#eee", "#fff", "#000"];
+
+  const handleBackgroundColor=(color)=>{
+   
+    setSelectedBackgroundColor(color)
+    const settings={}
+    settings.backgroundColor=color
+
+    updateSettings(settings)
+    .then(async(response)=>{
+      const data= await response.json()
+      if(response.ok){
+        toast.success("Background color changed")
+      }
+      else{
+        toast.error("Failed to update background color")
+      }
+    }).catch((error)=>{
+      toast.error("Error changing background color")
+    })
+  }
 
   const [editIndex, setEditIndex] = useState(null);
   const [tempMessage, setTempMessage] = useState("");
@@ -39,6 +83,24 @@ export default function Chatbot() {
       const updated = [...customizeMessages];
       updated[editIndex] = tempMessage;
       setCustomizeMessages(updated);
+
+        const settings={}
+        settings.defaultMessages=updated
+    
+        updateSettings(settings)
+        .then(async(response)=>{
+          const data= await response.json()
+          if(response.ok){
+            toast.success("Default messages changed")
+          }
+          else{
+            toast.error("Failed to update default messages")
+          }
+        }).catch((error)=>{
+          toast.error("Error changing default messages")
+        })
+      
+
       setEditIndex(null);
     }
   };
@@ -50,8 +112,6 @@ export default function Chatbot() {
     }
   };
 
- 
-
   const [editFormField, setEditFormField] = useState(null);
   const [tempFormValue, setTempFormValue] = useState("");
 
@@ -62,10 +122,31 @@ export default function Chatbot() {
 
   const saveFormEdit = () => {
     if (editFormField) {
-      setFormPlaceholders((prev) => ({
-        ...prev,
+      const updatedPlaceholders = {
+        ...formPlaceholders,
         [editFormField]: tempFormValue,
-      }));
+      };
+      
+      setFormPlaceholders(updatedPlaceholders);
+      
+      const settings = {};
+      settings.formPlaceholders = { ...updatedPlaceholders };
+      
+    
+        updateSettings(settings)
+        .then(async(response)=>{
+          const data= await response.json()
+          if(response.ok){
+            toast.success("Form placegolders changed")
+          }
+          else{
+            toast.error("Failed to update form placeholders")
+          }
+        }).catch((error)=>{
+          toast.error("Error changing form placeholders")
+        })
+      
+
       setEditFormField(null);
     }
   };
@@ -95,8 +176,40 @@ export default function Chatbot() {
   // Save the changes
   const saveWelcomeMessage = () => {
     setWelcomeMessage(tempWelcomeMsg);
+      const settings={}
+      settings.welcomeMessage= tempWelcomeMsg
+  
+      updateSettings(settings)
+      .then(async(response)=>{
+        const data= await response.json()
+        if(response.ok){
+          toast.success("Welcome message changed")
+        }
+      }).catch((error)=>{
+        toast.error("Error changing welcome message")
+      })
+    
+
     setIsEditingWelcome(false);
   };
+
+  const handleTimer =(e)=>{
+    e.preventDefault()
+    const settings={}
+    settings.missedChatTimer= missedChatTimer
+    console.log(missedChatTimer);
+    
+    updateSettings(settings)
+    .then(async(response)=>{
+      const data= await response.json()
+      if(response.ok){
+        toast.success("Missed Chat Timer changed")
+      }
+    }).catch((error)=>{
+      toast.error("Error changing missed chat timer")
+    })
+
+  }
 
   return (
     <section className={styles.container}>
@@ -118,30 +231,69 @@ export default function Chatbot() {
               style={{ backgroundColor: selectedBackgroundColor }}
             >
               <ChatbotMessage
-                message={customizeMessages[0]}
-                botMessage={true}
-                defaultMessage={false}
+              isSettings={true}
+                message={{
+                  content: customizeMessages[1],
+                  senderType: "system",
+                }}
                 key={2}
                 index={2}
               />
               <ChatbotMessage
-                message={customizeMessages[1]}
-                botMessage={true}
-                defaultMessage={false}
+              isSettings={true}
+                message={{
+                  content: customizeMessages[0],
+                  senderType: "system",
+                }}
                 key={1}
                 index={1}
               />
-              <ChatbotMessage
-                message={null}
-                botMessage={true}
-                defaultMessage={true}
-                key={0}
-                index={0}
-              />
+
+              <div className={styles.defaultMessage}>
+                <h5 className={styles.defaultMessageHeader}>Introduce Yourself</h5>
+                <form className={styles.defaultMessageForm}>
+                  <div className={styles.defaultMessageFormGroup}>
+                    <label htmlFor="name">Your Name</label>
+                    <input
+                      type="text"
+                      name="name"
+                      disabled
+                      placeholder={formPlaceholders?.name}
+                    />
+                  </div>
+
+                  <div className={styles.defaultMessageFormGroup}>
+                    <label htmlFor="phone">Your Phone</label>
+                    <input
+                      type="text"
+                      name="phone"
+                      disabled
+                      placeholder={formPlaceholders?.phone}
+                    />
+                  </div>
+
+                  <div className={styles.defaultMessageFormGroup}>
+                    <label htmlFor="email">Your Email</label>
+                    <input
+                      type="text"
+                      name="email"
+                      disabled
+                      placeholder={formPlaceholders?.email}
+                    />
+                  </div>
+
+                  <button disabled> Thank You!</button>
+                </form>
+              </div>
             </div>
             <div className={styles.chatboxInput}>
-              <textarea name="" id="" placeholder="Write a message"></textarea>
-              <button className={styles.chatboxBtn}>
+              <textarea
+                name=""
+                id=""
+                placeholder="Write a message"
+                disabled
+              ></textarea>
+              <button className={styles.chatboxBtn} disabled>
                 <img src={sendBtn} alt="" />
               </button>
             </div>
@@ -167,7 +319,7 @@ export default function Chatbot() {
                   key={index}
                   className={styles.color}
                   style={{ backgroundColor: color }}
-                  onClick={() => setSelectedHeaderColor(color)}
+                  onClick={()=>handleHeaderColor(color)}
                 />
               ))}
             </div>
@@ -190,7 +342,7 @@ export default function Chatbot() {
                   key={index}
                   className={styles.color}
                   style={{ backgroundColor: color }}
-                  onClick={() => setSelectedBackgroundColor(color)}
+                  onClick={() => handleBackgroundColor(color)}
                 />
               ))}
             </div>
@@ -255,7 +407,7 @@ export default function Chatbot() {
                     ) : (
                       <input
                         type="text"
-                        placeholder={formPlaceholders[field]}
+                        placeholder={formPlaceholders?.[field]}
                         onFocus={() => handleFormEditClick(field)}
                         readOnly
                       />
@@ -303,8 +455,8 @@ export default function Chatbot() {
           <div className={styles.editContainer}>
             <h5 className={styles.editContainerHeader}>Missed chat timer</h5>
             <div className={styles.timeContainer}>
-              <TimePicker />
-              <button>Save</button>
+              <TimePicker/>
+              <button onClick={handleTimer}>Save</button>
             </div>
           </div>
         </div>

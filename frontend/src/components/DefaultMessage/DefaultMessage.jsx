@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import styles from './DefaultMessage.module.css'
 import { createTicket } from '../../services/index'
 import { toast } from 'react-toastify'
+import { ChatbotContext } from '../../contexts/ChatbotContext'
 export default function DefaultMessage({firstMessageContent,setFirstMessage,messages,setMessages}) {
 
-
+    const {formPlaceholders} = useContext(ChatbotContext)
 
     const [formData, setFormData] =useState({
         name:"",
@@ -56,17 +57,17 @@ export default function DefaultMessage({firstMessageContent,setFirstMessage,mess
         <form  className={styles.form}>
             <div className={styles.formGroup}>
                 <label htmlFor="name">Your Name</label>
-                <input type="text" name='name' value={formData.name} onChange={handleChange} placeholder='Your name' />
+                <input type="text" name='name' value={formData.name} onChange={handleChange} placeholder={formPlaceholders?.name} />
             </div>
 
             <div className={styles.formGroup}>
                 <label htmlFor="phone">Your Phone</label>
-                <input type="text" name='phone' value={formData.phone} onChange={handleChange} placeholder='+91-838383444' />
+                <input type="text" name='phone' value={formData.phone} onChange={handleChange} placeholder={formPlaceholders?.phone} />
             </div>
 
             <div className={styles.formGroup}>
                 <label htmlFor="email">Your Email</label>
-                <input type="text" name='email' value={formData.email} onChange={handleChange} placeholder='example@gmail.com' />
+                <input type="text" name='email' value={formData.email} onChange={handleChange} placeholder={formPlaceholders?.email} />
             </div>
 
             <button onClick={handleSubmit}>Thank You!</button>

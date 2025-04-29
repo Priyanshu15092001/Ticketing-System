@@ -9,7 +9,8 @@ export default function ChatbotMessage({
   message,
   messages,
   setMessages,
-  showImage
+  showImage,
+  isSettings
 }) {
   // const showBotDp = botMessage && (index === 0 || !messages[index - 1].botMessage)
   return (
@@ -36,7 +37,9 @@ export default function ChatbotMessage({
           />
         </div>
       ) : (
-        <p>{message?.content}</p>
+        <p style={{
+          fontSize: isSettings ?"0.8vw":"",
+        }}>{message?.content}</p>
       )}
     </div>
   );

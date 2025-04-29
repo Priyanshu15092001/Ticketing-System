@@ -73,6 +73,7 @@
   flex-direction: column-reverse;
   gap: 10px;
   padding-bottom: 1rem;
+  padding-top: 1rem;
   overflow-y: auto;
 }
 
@@ -84,13 +85,14 @@
 }
 
 .chatboxInput textarea {
-  padding: 13px 0 0 7px;
+  padding: 5px 0 0 7px;
   resize: none;
   border: none;
   outline: none;
   height: 100%;
   width: 94%;
   border-radius: inherit;
+  font-size: 1vw;
 }
 
 .chatboxBtn {
@@ -103,6 +105,63 @@
 
 .chatboxInput textarea::placeholder {
   color: #8498b6;
+}
+
+.defaultMessage{
+  width:14vw;
+  background-color: #fff;
+  padding: 1vw;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  border-radius: 10px;
+  margin-left: 2rem;
+}
+
+.defaultMessageHeader{
+  font-size: 0.8vw;
+}
+
+.defaultMessageForm{
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.defaultMessageFormGroup{
+  display: flex;
+  flex-direction: column;
+  
+}
+
+.defaultMessageFormGroup label{
+  font-size: 0.7vw;
+  color: #505050;
+  font-weight: 500;
+  font-family: 'Poppins',sans-serif;
+}
+
+.defaultMessageForm input{
+  border: none;
+  outline: none;
+  /* padding: 5px; */
+  border-bottom: 1px solid #c3c3c3;
+  font-size: 0.7vw;
+  font-weight: 600;
+  color: #000;
+  font-family: 'Poppins',sans-serif;
+}
+
+.defaultMessageForm button{
+  align-self: center;
+  width: 8vw;
+  height: 1.7vw;
+  border-radius: 10px;
+  border: none;
+  background-color: #184e7f;
+  color: #fff;
+  font-size: 0.8vw;
 }
 
 .chatbotPopup {
@@ -318,6 +377,8 @@
   outline: none;
   resize: none;
   background: transparent;
+  font-size: 0.8vw;
+  padding: 8px;
 }
 
 .welcomeMessage textarea::-webkit-scrollbar {
@@ -334,6 +395,7 @@
 .timeContainer button{
     width: 5vw;
     height: 2vw;
+    font-size: 1vw;
     border-radius: 10px;
     background-color: #184e7f;
     border: none;
@@ -341,4 +403,22 @@
     align-items: center;
     justify-content: center;
     color: #fff;
+}
+
+
+
+
+@media screen and (max-width:1024px) {
+  
+
+  .editContainer {
+    width: 80%;
+  }
+
+}
+
+@media screen and (max-width:800px) {
+  .editContainer {
+    width: 85%;
+  }
 }
