@@ -37,7 +37,7 @@ const createTicketFromChat = async (req, res) => {
       createdAt: new Date(),
     });
 
-    // 👇 Fetch default follow-up messages from Settings
+    
     const settings = await Settings.findOne(); 
     let defaultMessages = [];
 

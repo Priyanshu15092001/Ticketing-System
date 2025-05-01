@@ -4,7 +4,7 @@ const Message = require('../models/Message')
 const getMissedChatsPerWeek = async (req, res) => {
     try {
       const missedChats = await Ticket.aggregate([
-        { $match: { isMissed: true } }, // only missed chats
+        { $match: { isMissed: true } }, 
         {
           $group: {
             _id: {
@@ -36,7 +36,7 @@ const getMissedChatsPerWeek = async (req, res) => {
         
         const firstCustomerMessage = messages.find(m => m.senderType === "customer");
   
-        if (!firstCustomerMessage) continue; // skip if no customer message
+        if (!firstCustomerMessage) continue; 
   
         
         const adminMessages = messages.filter(m => 
@@ -80,7 +80,7 @@ const getMissedChatsPerWeek = async (req, res) => {
           resolvedPercentage = Math.round((resolvedTickets / totalTickets) * 100);
         }
     
-        // Return the stats
+        
         res.status(200).json({
           message:"Total Chats and resolved chats achieved",
           totalTickets,

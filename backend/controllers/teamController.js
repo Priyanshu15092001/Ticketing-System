@@ -72,8 +72,12 @@ const deleteMember = async (req, res) => {
       return res.status(404).json({ message: "Member not found" });
     }
 
-    if (targetUser.role === "admin" && !req.isSuperAdmin) {
-      return res.status(403).json({ message: "Only super admin can delete other admins" });
+    
+    const superAdmin = await User.findOne({ role: "admin" }).sort({ createdAt: 1 });
+
+    
+    if (String(targetUser._id) === String(superAdmin._id)) {
+      return res.status(403).json({ message: "Primary admin account cannot be deleted" });
     }
 
     await User.findByIdAndDelete(id);
@@ -94,8 +98,12 @@ const updateMember = async (req, res) => {
       return res.status(404).json({ message: "Member not found" });
     }
 
-    if (targetUser.role === "admin" && !req.isSuperAdmin) {
-      return res.status(403).json({ message: "Only super admin can update other admins" });
+    
+    const superAdmin = await User.findOne({ role: "admin" }).sort({ createdAt: 1 });
+
+   
+    if (String(targetUser._id) === String(superAdmin._id)) {
+      return res.status(403).json({ message: "Primary admin account cannot be updated" });
     }
 
     const updatedUser = await User.findByIdAndUpdate(id, updates, {
