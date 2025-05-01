@@ -10,8 +10,6 @@ import { ChatbotContext } from "../../contexts/ChatbotContext";
 import { updateSettings } from "../../services/index";
 import { toast } from "react-toastify";
 export default function Chatbot() {
-  // TODO: change default message placeholder with formplaceholder
-
   const {
     selectedHeaderColor,
     setSelectedHeaderColor,
@@ -23,59 +21,70 @@ export default function Chatbot() {
     setCustomizeMessages,
     formPlaceholders,
     setFormPlaceholders,
-    missedChatTimer
+    missedChatTimer,
   } = useContext(ChatbotContext);
-  
+
   const headerColors = ["#33475b", "#fff", "#000"];
 
-  const handleHeaderColor=(color)=>{
-   
-    setSelectedHeaderColor(color)
-    const settings={}
-    settings.headerColor=color
+  const handleHeaderColor = (color) => {
+    if (localStorage.getItem("role") == "admin") {
+      setSelectedHeaderColor(color);
+      const settings = {};
+      settings.headerColor = color;
 
-    updateSettings(settings)
-    .then(async(response)=>{
-      const data= await response.json()
-      if(response.ok){
-        toast.success("Header color changed")
-      }
-      else{
-        toast.error("Failed to update header color")
-      }
-    }).catch((error)=>{
-      toast.error("Error changing header color")
-    })
-  }
+      updateSettings(settings)
+        .then(async (response) => {
+          const data = await response.json();
+          if (response.ok) {
+            toast.success("Header color changed");
+          } else {
+            toast.error("Failed to update header color");
+          }
+        })
+        .catch((error) => {
+          toast.error("Error changing header color");
+        });
+    } else {
+      toast.error("Access denied: Admins only");
+    }
+  };
 
   const backgroundColors = ["#eee", "#fff", "#000"];
 
-  const handleBackgroundColor=(color)=>{
-   
-    setSelectedBackgroundColor(color)
-    const settings={}
-    settings.backgroundColor=color
+  const handleBackgroundColor = (color) => {
+    if (localStorage.getItem("role") == "admin") {
+      setSelectedBackgroundColor(color);
+      const settings = {};
+      settings.backgroundColor = color;
 
-    updateSettings(settings)
-    .then(async(response)=>{
-      const data= await response.json()
-      if(response.ok){
-        toast.success("Background color changed")
-      }
-      else{
-        toast.error("Failed to update background color")
-      }
-    }).catch((error)=>{
-      toast.error("Error changing background color")
-    })
-  }
+      updateSettings(settings)
+        .then(async (response) => {
+          const data = await response.json();
+          if (response.ok) {
+            toast.success("Background color changed");
+          } else {
+            toast.error("Failed to update background color");
+          }
+        })
+        .catch((error) => {
+          toast.error("Error changing background color");
+        });
+    } else {
+      toast.error("Access denied: Admins only");
+    }
+  };
 
   const [editIndex, setEditIndex] = useState(null);
   const [tempMessage, setTempMessage] = useState("");
 
   const handleEditClick = (index) => {
+    if(localStorage.getItem("role")=="admin"){
     setEditIndex(index);
     setTempMessage(customizeMessages[index]);
+    }
+    else{
+      toast.error("Access denied: Admins only")
+    }
   };
 
   const saveEdit = () => {
@@ -84,22 +93,21 @@ export default function Chatbot() {
       updated[editIndex] = tempMessage;
       setCustomizeMessages(updated);
 
-        const settings={}
-        settings.defaultMessages=updated
-    
-        updateSettings(settings)
-        .then(async(response)=>{
-          const data= await response.json()
-          if(response.ok){
-            toast.success("Default messages changed")
+      const settings = {};
+      settings.defaultMessages = updated;
+
+      updateSettings(settings)
+        .then(async (response) => {
+          const data = await response.json();
+          if (response.ok) {
+            toast.success("Default messages changed");
+          } else {
+            toast.error("Failed to update default messages");
           }
-          else{
-            toast.error("Failed to update default messages")
-          }
-        }).catch((error)=>{
-          toast.error("Error changing default messages")
         })
-      
+        .catch((error) => {
+          toast.error("Error changing default messages");
+        });
 
       setEditIndex(null);
     }
@@ -116,8 +124,13 @@ export default function Chatbot() {
   const [tempFormValue, setTempFormValue] = useState("");
 
   const handleFormEditClick = (field) => {
+    if(localStorage.getItem("role")=="admin"){
     setEditFormField(field);
     setTempFormValue(formPlaceholders[field]);
+    }
+    else{
+      toast.error("Access denied: Admins only")
+    }
   };
 
   const saveFormEdit = () => {
@@ -126,26 +139,24 @@ export default function Chatbot() {
         ...formPlaceholders,
         [editFormField]: tempFormValue,
       };
-      
+
       setFormPlaceholders(updatedPlaceholders);
-      
+
       const settings = {};
       settings.formPlaceholders = { ...updatedPlaceholders };
-      
-    
-        updateSettings(settings)
-        .then(async(response)=>{
-          const data= await response.json()
-          if(response.ok){
-            toast.success("Form placegolders changed")
+
+      updateSettings(settings)
+        .then(async (response) => {
+          const data = await response.json();
+          if (response.ok) {
+            toast.success("Form placegolders changed");
+          } else {
+            toast.error("Failed to update form placeholders");
           }
-          else{
-            toast.error("Failed to update form placeholders")
-          }
-        }).catch((error)=>{
-          toast.error("Error changing form placeholders")
         })
-      
+        .catch((error) => {
+          toast.error("Error changing form placeholders");
+        });
 
       setEditFormField(null);
     }
@@ -162,8 +173,14 @@ export default function Chatbot() {
   const [isEditingWelcome, setIsEditingWelcome] = useState(false);
 
   const handleWelcomeEditClick = () => {
+    if(localStorage.getItem("role")=="admin")
+    {
     setTempWelcomeMsg(welcomeMessage);
     setIsEditingWelcome(true);
+    }
+    else{
+      toast.error("Access denied: Admins only")
+    }
   };
 
   const handleWelcomeKeyDown = (e) => {
@@ -176,40 +193,43 @@ export default function Chatbot() {
   // Save the changes
   const saveWelcomeMessage = () => {
     setWelcomeMessage(tempWelcomeMsg);
-      const settings={}
-      settings.welcomeMessage= tempWelcomeMsg
-  
-      updateSettings(settings)
-      .then(async(response)=>{
-        const data= await response.json()
-        if(response.ok){
-          toast.success("Welcome message changed")
+    const settings = {};
+    settings.welcomeMessage = tempWelcomeMsg;
+
+    updateSettings(settings)
+      .then(async (response) => {
+        const data = await response.json();
+        if (response.ok) {
+          toast.success("Welcome message changed");
         }
-      }).catch((error)=>{
-        toast.error("Error changing welcome message")
       })
-    
+      .catch((error) => {
+        toast.error("Error changing welcome message");
+      });
 
     setIsEditingWelcome(false);
   };
 
-  const handleTimer =(e)=>{
-    e.preventDefault()
-    const settings={}
-    settings.missedChatTimer= missedChatTimer
+  const handleTimer = (e) => {
+    e.preventDefault();
+    const settings = {};
+    settings.missedChatTimer = missedChatTimer;
     console.log(missedChatTimer);
-    
-    updateSettings(settings)
-    .then(async(response)=>{
-      const data= await response.json()
-      if(response.ok){
-        toast.success("Missed Chat Timer changed")
-      }
-    }).catch((error)=>{
-      toast.error("Error changing missed chat timer")
-    })
 
-  }
+    updateSettings(settings)
+      .then(async (response) => {
+        const data = await response.json();
+        if (response.ok) {
+          toast.success("Missed Chat Timer changed");
+        }
+        else{
+          toast.error(data.message)
+        }
+      })
+      .catch((error) => {
+        toast.error("Error changing missed chat timer");
+      });
+  };
 
   return (
     <section className={styles.container}>
@@ -231,7 +251,7 @@ export default function Chatbot() {
               style={{ backgroundColor: selectedBackgroundColor }}
             >
               <ChatbotMessage
-              isSettings={true}
+                isSettings={true}
                 message={{
                   content: customizeMessages[1],
                   senderType: "system",
@@ -240,7 +260,7 @@ export default function Chatbot() {
                 index={2}
               />
               <ChatbotMessage
-              isSettings={true}
+                isSettings={true}
                 message={{
                   content: customizeMessages[0],
                   senderType: "system",
@@ -250,7 +270,9 @@ export default function Chatbot() {
               />
 
               <div className={styles.defaultMessage}>
-                <h5 className={styles.defaultMessageHeader}>Introduce Yourself</h5>
+                <h5 className={styles.defaultMessageHeader}>
+                  Introduce Yourself
+                </h5>
                 <form className={styles.defaultMessageForm}>
                   <div className={styles.defaultMessageFormGroup}>
                     <label htmlFor="name">Your Name</label>
@@ -319,7 +341,7 @@ export default function Chatbot() {
                   key={index}
                   className={styles.color}
                   style={{ backgroundColor: color }}
-                  onClick={()=>handleHeaderColor(color)}
+                  onClick={() => handleHeaderColor(color)}
                 />
               ))}
             </div>
@@ -455,7 +477,7 @@ export default function Chatbot() {
           <div className={styles.editContainer}>
             <h5 className={styles.editContainerHeader}>Missed chat timer</h5>
             <div className={styles.timeContainer}>
-              <TimePicker/>
+              <TimePicker />
               <button onClick={handleTimer}>Save</button>
             </div>
           </div>
